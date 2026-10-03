@@ -29,8 +29,8 @@
   --border-light-subtle: rgba(255, 255, 255, 0.12);
 
   /* Typography */
-  --font-serif: 'Playfair Display', Georgia, serif;
-  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Instrument Serif', 'Recoleta', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Instrument Sans', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   --font-script: 'Alex Brush', 'Great Vibes', cursive;
 
   /* Elevation & Shadows */

@@ -4,8 +4,8 @@
 @section('meta_description', 'Explore the full digital menu of ' . config('restaurant.name') . ' in London. Authentic Indian curries, tandoori grills, dum biryanis, fresh naans, and delicious desserts.')
 
 @section('content')
-<!-- Menu Page Header Banner -->
-<section class="menu-page-header">
+<!-- Menu Page Header Banner with High-Res Background Texture -->
+<section class="menu-page-header" style="background-image: linear-gradient(180deg, rgba(14, 10, 7, 0.78) 0%, rgba(14, 10, 7, 0.92) 100%), url('{{ asset('images/home/hero-bg.jpg') }}'); background-size: cover; background-position: center;">
     <div class="container">
         <div class="section-eyebrow">{{ config('restaurant.subtitle') }}</div>
         <h1 class="page-title">Digital Restaurant Menu</h1>
@@ -54,24 +54,48 @@
                                 <div class="menu-item-name-group">
                                     <h3 class="menu-item-name">{{ $item->name }}</h3>
                                     
-                                    <!-- Dietary & Status Badges -->
+                                    <!-- Dietary & Status Badges with Crisp SVGs -->
                                     <div class="menu-item-badges">
                                         @if($item->is_featured)
-                                            <span class="diet-badge featured">★ Featured</span>
+                                            <span class="diet-badge featured">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                                                </svg>
+                                                Featured
+                                            </span>
                                         @endif
+
                                         @if($item->is_vegetarian)
-                                            <span class="diet-badge veg" title="Vegetarian">🌱 Veg</span>
+                                            <span class="diet-badge veg" title="Vegetarian">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <rect width="20" height="20" x="2" y="2" rx="3"/>
+                                                    <circle cx="12" cy="12" r="5" fill="currentColor"/>
+                                                </svg>
+                                                Veg
+                                            </span>
                                         @endif
+
                                         @if($item->is_vegan)
-                                            <span class="diet-badge vegan" title="Vegan">🌿 Vegan</span>
+                                            <span class="diet-badge vegan" title="Vegan">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                                    <path d="M11 20A7 7 0 0 1 4 13C4 7 11 3 11 3s7 4 7 10a7 7 0 0 1-7 7Z"/>
+                                                </svg>
+                                                Vegan
+                                            </span>
                                         @endif
+
                                         @if($item->is_spicy)
-                                            <span class="diet-badge spicy" title="Spicy">🌶️ Spicy</span>
+                                            <span class="diet-badge spicy" title="Spicy">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                                    <path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12Z"/>
+                                                </svg>
+                                                Spicy
+                                            </span>
                                         @endif
                                     </div>
                                 </div>
                                 
-                                <!-- Price -->
+                                <!-- Formatted GBP Price -->
                                 <span class="menu-item-price-tag">{{ $item->formatted_price }}</span>
                             </div>
 
@@ -81,7 +105,7 @@
                             @endif
                         </div>
 
-                        <!-- Variations & Addons Foundation Preview -->
+                        <!-- Variations & Addons Preview -->
                         @if($item->variations->isNotEmpty() || $item->addons->isNotEmpty())
                             <div class="menu-item-customizations">
                                 @if($item->variations->isNotEmpty())
