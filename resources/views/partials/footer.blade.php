@@ -6,7 +6,7 @@
                 <div class="footer-brand-logo">
                     <img src="{{ asset('images/suyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo">
                     <div class="brand-name-group">
-                        <span class="brand-title" style="font-size: 1.2rem;">{{ config('restaurant.name') }}</span>
+                        <span class="brand-title" style="font-size: 1.25rem;">{{ config('restaurant.name') }}</span>
                         <span class="brand-subtitle">{{ config('restaurant.tagline') }}</span>
                     </div>
                 </div>
@@ -15,7 +15,7 @@
                 </p>
                 <div class="footer-social-links">
                     <a href="{{ config('restaurant.social.facebook') }}" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Facebook">
-                        <span>f</span>
+                        <span style="font-weight: 700;">f</span>
                     </a>
                     <a href="{{ config('restaurant.social.instagram') }}" target="_blank" rel="noopener noreferrer" class="social-icon-btn" aria-label="Instagram">
                         <span>📷</span>
@@ -31,10 +31,10 @@
                 <h4 class="footer-col-title">Quick Links</h4>
                 <ul class="footer-links-list">
                     <li><a href="{{ route('home') }}">Home</a></li>
-                    <li><a href="#menu-preview">Menu</a></li>
-                    <li><a href="#about">About</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
-                    <li><a href="#contact">Contact</a></li>
+                    <li><a href="{{ route('menu') }}">Menu</a></li>
+                    <li><a href="{{ route('home') }}#about">About</a></li>
+                    <li><a href="{{ route('home') }}#gallery">Gallery</a></li>
+                    <li><a href="{{ route('home') }}#contact">Contact</a></li>
                 </ul>
             </div>
 
@@ -73,11 +73,13 @@
             </div>
         </div>
 
-        <!-- Bottom Bar -->
+        <!-- Bottom Bar with London Skyline Silhouette -->
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} {{ config('restaurant.name') }} {{ config('restaurant.tagline') }}. All rights reserved.</p>
+            <p>&copy; 2024 {{ config('restaurant.name') }} {{ config('restaurant.tagline') }}. All rights reserved.</p>
+            
             <div class="footer-bottom-links">
                 <a href="#privacy">Privacy Policy</a>
+                <span style="color: rgba(255,255,255,0.2);">|</span>
                 <a href="#terms">Terms & Conditions</a>
             </div>
         </div>
