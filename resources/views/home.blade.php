@@ -93,23 +93,30 @@
                 <div class="section-eyebrow">Our Specialties</div>
                 <h2 class="section-title">Popular Dishes</h2>
             </div>
-            <a href="#menu" class="btn btn-secondary">
+            <a href="{{ route('menu') }}" class="btn btn-secondary">
                 View Full Menu <span>&rarr;</span>
             </a>
         </div>
 
         <div class="dishes-grid">
-            @foreach($featuredDishes as $dish)
+            @forelse($featuredDishes as $dish)
             <div class="dish-card">
                 <div class="dish-card-img-wrapper" style="display:flex; align-items:center; justify-content:center; background: #231B15; color: #D4A373;">
                     <span style="font-size: 2.5rem;">🍲</span>
                 </div>
                 <div class="dish-card-body">
-                    <h3 class="dish-card-title">{{ $dish['name'] }}</h3>
-                    <p class="dish-card-desc">{{ $dish['description'] }}</p>
+                    <div style="display:flex; justify-content:space-between; align-items:baseline; margin-bottom: 0.35rem;">
+                        <h3 class="dish-card-title">{{ $dish->name ?? $dish['name'] }}</h3>
+                        <span style="color: var(--primary-terracotta); font-weight: 700; font-family: var(--font-serif);">
+                            {{ $dish->formatted_price ?? $dish['price'] }}
+                        </span>
+                    </div>
+                    <p class="dish-card-desc">{{ $dish->description ?? $dish['description'] }}</p>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <p style="color: var(--text-muted); grid-column: 1 / -1; text-align: center;">Explore our full selection on the digital menu.</p>
+            @endforelse
         </div>
     </div>
 </section>

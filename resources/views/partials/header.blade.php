@@ -13,11 +13,11 @@
             <!-- Desktop Navigation Links -->
             <nav class="desktop-nav" aria-label="Main Navigation">
                 <ul class="nav-links">
-                    <li><a href="{{ route('home') }}" class="nav-link active">Home</a></li>
-                    <li><a href="#menu-preview" class="nav-link">Menu</a></li>
-                    <li><a href="#about" class="nav-link">About</a></li>
-                    <li><a href="#gallery" class="nav-link">Gallery</a></li>
-                    <li><a href="#contact" class="nav-link">Contact</a></li>
+                    <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
+                    <li><a href="{{ route('menu') }}" class="nav-link {{ request()->routeIs('menu*') ? 'active' : '' }}">Menu</a></li>
+                    <li><a href="{{ route('home') }}#about" class="nav-link">About</a></li>
+                    <li><a href="{{ route('home') }}#gallery" class="nav-link">Gallery</a></li>
+                    <li><a href="{{ route('home') }}#contact" class="nav-link">Contact</a></li>
                 </ul>
             </nav>
 
@@ -41,11 +41,11 @@
 
     <!-- Mobile Drawer Navigation -->
     <div class="mobile-nav" id="mobileNav">
-        <a href="{{ route('home') }}" class="nav-link active">Home</a>
-        <a href="#menu-preview" class="nav-link">Menu</a>
-        <a href="#about" class="nav-link">About</a>
-        <a href="#gallery" class="nav-link">Gallery</a>
-        <a href="#contact" class="nav-link">Contact</a>
+        <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+        <a href="{{ route('menu') }}" class="nav-link {{ request()->routeIs('menu*') ? 'active' : '' }}">Menu</a>
+        <a href="{{ route('home') }}#about" class="nav-link">About</a>
+        <a href="{{ route('home') }}#gallery" class="nav-link">Gallery</a>
+        <a href="{{ route('home') }}#contact" class="nav-link">Contact</a>
         <div class="mobile-nav-footer" style="padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.5rem;">
             <p style="color: var(--text-light-muted); font-size: 0.85rem; margin-bottom: 1rem;">📍 {{ config('restaurant.contact.address') }}</p>
             <a href="#order" class="btn btn-primary" style="width: 100%;">Order Now &rarr;</a>
