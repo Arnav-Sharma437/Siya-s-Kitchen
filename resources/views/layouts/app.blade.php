@@ -11,10 +11,10 @@
     <!-- Favicon -->
     <link rel="icon" type="image/jpeg" href="{{ asset('images/suyas-logo.jpg') }}">
 
-    <!-- Google Fonts: Instrument Sans, Instrument Serif, Plus Jakarta Sans, Alex Brush -->
+    <!-- Google Fonts: Recoleta-style (Fraunces & DM Serif Display) + Instrumental (Instrument Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Instrument+Serif:ital@0;1&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=DM+Serif+Display:ital@0;1&family=Fraunces:ital,opsz,wght@0,9..144,500..800;1,9..144,500..800&family=Instrument+Sans:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
 
     <!-- Global Application Styles -->
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
