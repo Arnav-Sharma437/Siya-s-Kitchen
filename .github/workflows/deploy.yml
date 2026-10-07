@@ -1,0 +1,39 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to IONOS Production Server
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure SSH and Execute Deployment Script
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.IONOS_SSH_KEY }}
+          SSH_HOST: access932199769.webspace-data.io
+          SSH_USER: u109510944
+          SSH_PORT: "22"
+        run: |
+          mkdir -p ~/.ssh
+          chmod 700 ~/.ssh
+
+          # Strict host key verification using known_hosts
+          ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+
+          # Configure private key with secure permissions
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+
+          # Execute the production deployment script
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
+
+          # Clean up private key
+          rm -f ~/.ssh/id_rsa
