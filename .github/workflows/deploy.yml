@@ -28,15 +28,28 @@ jobs:
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-          # Write ED25519 private key to dedicated temporary file with secure 600 permissions
-          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/ionos_deploy_key
+          # Normalize private key format (handles actual newlines, literal \n, and CRLF)
+          KEY_DATA="$SSH_PRIVATE_KEY"
+          if [[ "$KEY_DATA" == *'\n'* ]]; then
+            KEY_DATA=$(printf '%b' "$KEY_DATA")
+          fi
+
+          printf '%s\n' "$KEY_DATA" | tr -d '\r' > ~/.ssh/ionos_deploy_key
           chmod 600 ~/.ssh/ionos_deploy_key
 
-          # Execute the production deployment script using the exact key exclusively
-          ssh -i ~/.ssh/ionos_deploy_key \
-              -p "$SSH_PORT" \
+          # Verify key structure and print key fingerprint to logs
+          ssh-keygen -l -f ~/.ssh/ionos_deploy_key
+
+          # Start ssh-agent and register the ED25519 key
+          eval "$(ssh-agent -s)"
+          ssh-add ~/.ssh/ionos_deploy_key
+
+          # Execute the production deployment script
+          ssh -p "$SSH_PORT" \
               -o IdentitiesOnly=yes \
+              -i ~/.ssh/ionos_deploy_key \
               "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
 
-          # Clean up temporary private key
+          # Clean up
+          ssh-agent -k || true
           rm -f ~/.ssh/ionos_deploy_key
