@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
-| Public Web Routes - Suyas Kitchen
+| Public Web Routes - Siya's Kitchen
 |--------------------------------------------------------------------------
 | London, UK restaurant ordering platform.
 */

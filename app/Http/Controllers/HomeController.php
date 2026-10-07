@@ -9,7 +9,7 @@ use Illuminate\View\View;
 class HomeController extends Controller
 {
     /**
-     * Display the Suyas Kitchen homepage.
+     * Display the Siya's Kitchen homepage.
      */
     public function index(): View
     {

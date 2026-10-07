@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => env('RESTAURANT_NAME', "Suyas Kitchen"),
+    'name' => env('RESTAURANT_NAME', "Siya's Kitchen"),
     'tagline' => env('RESTAURANT_TAGLINE', 'by Jalaram Group'),
     'subtitle' => env('RESTAURANT_SUBTITLE', 'Authentic Indian Cuisine • London'),
     'currency' => [
@@ -11,7 +11,7 @@ return [
     'contact' => [
         'address' => env('RESTAURANT_ADDRESS', '123 High Street, London, UK'),
         'phone' => env('RESTAURANT_PHONE', '+44 20 1234 5678'),
-        'email' => env('RESTAURANT_EMAIL', 'info@suyaskitchen.co.uk'),
+        'email' => env('RESTAURANT_EMAIL', 'info@siyaskitchen.co.uk'),
         'location_label' => env('RESTAURANT_LOCATION', 'London, UK'),
     ],
     'opening_hours' => [

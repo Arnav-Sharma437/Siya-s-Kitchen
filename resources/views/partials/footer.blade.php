@@ -3,13 +3,9 @@
         <div class="footer-grid">
             <!-- Brand Column -->
             <div class="footer-brand">
-                <div class="footer-brand-logo">
-                    <img src="{{ asset('images/suyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo">
-                    <div class="brand-name-group">
-                        <span class="brand-title" style="font-size: 1.25rem;">{{ config('restaurant.name') }}</span>
-                        <span class="brand-subtitle">{{ config('restaurant.tagline') }}</span>
-                    </div>
-                </div>
+                <a href="{{ route('home') }}" class="footer-brand-logo" aria-label="{{ config('restaurant.name') }}" title="{{ config('restaurant.name') }}">
+                    <img src="{{ asset('images/siyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo">
+                </a>
                 <p class="footer-brand-desc">
                     Authentic Indian cuisine in the heart of London. Fresh ingredients, traditional recipes and unforgettable flavours.
                 </p>

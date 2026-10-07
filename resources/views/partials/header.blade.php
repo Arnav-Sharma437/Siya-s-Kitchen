@@ -1,13 +1,9 @@
 <header class="site-header">
     <div class="container">
         <div class="nav-wrapper">
-            <!-- Brand Logo & Name -->
-            <a href="{{ route('home') }}" class="brand-logo" title="{{ config('restaurant.name') }}">
-                <img src="{{ asset('images/suyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo" class="brand-logo-img">
-                <div class="brand-name-group">
-                    <span class="brand-title">{{ config('restaurant.name') }}</span>
-                    <span class="brand-subtitle">{{ config('restaurant.tagline') }}</span>
-                </div>
+            <!-- Brand Logo -->
+            <a href="{{ route('home') }}" class="brand-logo" aria-label="{{ config('restaurant.name') }}" title="{{ config('restaurant.name') }}">
+                <img src="{{ asset('images/siyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo" class="brand-logo-img">
             </a>
 
             <!-- Desktop Navigation Links -->

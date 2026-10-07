@@ -1,5 +1,5 @@
 /**
- * Suyas Kitchen - Client Application Script
+ * Siya's Kitchen - Client Application Script
  * Vanilla JavaScript (No heavy frameworks)
  */
 

@@ -40,7 +40,7 @@
                 <div class="hero-dish-wrapper">
                     <div class="hero-glow-ring"></div>
                     <!-- Ultra High-Res Sizzling Kadai Curry -->
-                    <img src="{{ asset('images/home/hero-kadai.jpg') }}" alt="Suyas Kitchen Signature Sizzling Kadai Curry" class="hero-dish-img">
+                    <img src="{{ asset('images/home/hero-kadai.jpg') }}" alt="Siya's Kitchen Signature Sizzling Kadai Curry" class="hero-dish-img">
                     
                     <!-- Floating Script Accent Badge -->
                     <div class="hero-floating-badge">
@@ -187,19 +187,19 @@
 </section>
 
 <!-- =========================================================================
-     4. ABOUT SUYAS KITCHEN (HIGH RES INTERIOR PHOTOGRAPHY)
+     4. ABOUT SIYA'S KITCHEN (HIGH RES INTERIOR PHOTOGRAPHY)
      ========================================================================= -->
 <section class="about-section" id="about">
     <div class="container">
         <div class="about-grid">
             <div class="about-content-box">
-                <div class="section-eyebrow">ABOUT SUYAS KITCHEN</div>
+                <div class="section-eyebrow">ABOUT SIYA'S KITCHEN</div>
                 <h2 class="section-title">
                     A Taste of India<br>
                     in the Heart of London
                 </h2>
                 <p>
-                    Suyas Kitchen by Jalaram Group was created with a simple vision – to serve authentic Indian food prepared with fresh ingredients, traditional recipes and a whole lot of love. Whether you're dining with family, meeting friends or celebrating a special occasion, we are here to make it a memorable experience.
+                    Siya's Kitchen by Jalaram Group was created with a simple vision – to serve authentic Indian food prepared with fresh ingredients, traditional recipes and a whole lot of love. Whether you're dining with family, meeting friends or celebrating a special occasion, we are here to make it a memorable experience.
                 </p>
                 <a href="{{ route('menu') }}" class="btn btn-primary">
                     <span>Our Story</span>
@@ -209,7 +209,7 @@
                 </a>
             </div>
             <div class="about-img-box">
-                <img src="{{ asset('images/home/about-interior.jpg') }}" alt="Suyas Kitchen London Restaurant Dining Room Ambiance" loading="lazy">
+                <img src="{{ asset('images/home/about-interior.jpg') }}" alt="Siya's Kitchen London Restaurant Dining Room Ambiance" loading="lazy">
             </div>
         </div>
     </div>
@@ -238,7 +238,7 @@
 
         <div class="gallery-grid">
             <div class="gallery-item">
-                <img src="{{ asset('images/gallery/gallery-1.jpg') }}" alt="Suyas Kitchen Restaurant Dining Room" loading="lazy">
+                <img src="{{ asset('images/gallery/gallery-1.jpg') }}" alt="Siya's Kitchen Restaurant Dining Room" loading="lazy">
             </div>
             <div class="gallery-item">
                 <img src="{{ asset('images/gallery/gallery-2.jpg') }}" alt="Authentic Copper Kadai Curry Preparation" loading="lazy">
