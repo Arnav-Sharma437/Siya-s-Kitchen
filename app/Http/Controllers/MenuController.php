@@ -16,16 +16,21 @@ class MenuController extends Controller
         $restaurant = config('restaurant');
 
         // Eager load active categories with active items, variations, and addons
-        $categories = MenuCategory::active()
-            ->ordered()
-            ->with([
-                'menuItems' => function ($query) {
-                    $query->available()
-                        ->ordered()
-                        ->with(['variations' => fn ($q) => $q->active(), 'addons' => fn ($q) => $q->active()]);
-                }
-            ])
-            ->get();
+        try {
+            $categories = MenuCategory::active()
+                ->ordered()
+                ->with([
+                    'menuItems' => function ($query) {
+                        $query->available()
+                            ->ordered()
+                            ->with(['variations' => fn ($q) => $q->active(), 'addons' => fn ($q) => $q->active()]);
+                    }
+                ])
+                ->get();
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('MenuController loading error: ' . $e->getMessage());
+            $categories = collect();
+        }
 
         $selectedCategorySlug = $request->query('category');
         $tableNumber = $request->query('table');
