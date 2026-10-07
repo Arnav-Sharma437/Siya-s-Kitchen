@@ -28,16 +28,15 @@ jobs:
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-          # Clean Windows CRLF line endings, ensure trailing newline, and set permissions
-          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
+          # Write ED25519 private key to dedicated temporary file with secure 600 permissions
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/ionos_deploy_key
+          chmod 600 ~/.ssh/ionos_deploy_key
 
-          # Execute the production deployment script with key compatibility flags
-          ssh -i ~/.ssh/id_rsa \
+          # Execute the production deployment script using the exact key exclusively
+          ssh -i ~/.ssh/ionos_deploy_key \
               -p "$SSH_PORT" \
-              -o PubkeyAcceptedKeyTypes=+ssh-rsa \
-              -o HostkeyAlgorithms=+ssh-rsa \
+              -o IdentitiesOnly=yes \
               "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
 
-          # Clean up private key
-          rm -f ~/.ssh/id_rsa
+          # Clean up temporary private key
+          rm -f ~/.ssh/ionos_deploy_key
