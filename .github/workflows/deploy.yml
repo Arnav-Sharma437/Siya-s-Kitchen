@@ -28,28 +28,23 @@ jobs:
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-          # Normalize private key format (handles actual newlines, literal \n, and CRLF)
-          KEY_DATA="$SSH_PRIVATE_KEY"
-          if [[ "$KEY_DATA" == *'\n'* ]]; then
-            KEY_DATA=$(printf '%b' "$KEY_DATA")
-          fi
-
-          printf '%s\n' "$KEY_DATA" | tr -d '\r' > ~/.ssh/ionos_deploy_key
+          # Write key cleanly, strip any Windows carriage returns, ensure trailing newline
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/ionos_deploy_key
           chmod 600 ~/.ssh/ionos_deploy_key
 
-          # Verify key structure and print key fingerprint to logs
-          ssh-keygen -l -f ~/.ssh/ionos_deploy_key
-
-          # Start ssh-agent and register the ED25519 key
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/ionos_deploy_key
+          # Check if secret looks like a public key rather than a private key
+          FIRST_LINE=$(head -n 1 ~/.ssh/ionos_deploy_key | awk '{print $1}')
+          if [[ "$FIRST_LINE" == "ssh-ed25519" || "$FIRST_LINE" == "ssh-rsa" ]]; then
+            echo "::error::The secret IONOS_SSH_KEY contains a PUBLIC key ($FIRST_LINE), but SSH deployment requires the matching PRIVATE key (starting with -----BEGIN OPENSSH PRIVATE KEY-----)."
+            exit 1
+          fi
 
           # Execute the production deployment script
-          ssh -p "$SSH_PORT" \
+          ssh -i ~/.ssh/ionos_deploy_key \
+              -p "$SSH_PORT" \
               -o IdentitiesOnly=yes \
-              -i ~/.ssh/ionos_deploy_key \
+              -o StrictHostKeyChecking=yes \
               "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
 
-          # Clean up
-          ssh-agent -k || true
+          # Clean up temporary private key
           rm -f ~/.ssh/ionos_deploy_key
