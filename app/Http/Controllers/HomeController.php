@@ -17,11 +17,11 @@ class HomeController extends Controller
 
         // Fetch featured menu items from database, with eager loaded category
         try {
-            $featuredDishes = MenuItem::with('category')
+            $featuredDishes = MenuItem::with(['category', 'variations', 'addons'])
                 ->where('is_available', true)
                 ->where('is_featured', true)
                 ->ordered()
-                ->take(4)
+                ->take(6)
                 ->get();
         } catch (\Throwable $e) {
             $featuredDishes = collect();

@@ -139,49 +139,93 @@
         </div>
 
         <div class="dishes-grid">
-            <!-- Butter Chicken -->
-            <div class="dish-card">
-                <div class="dish-card-img-wrapper">
-                    <img src="{{ asset('images/dishes/butter-chicken.jpg') }}" alt="Butter Chicken" class="dish-card-img" loading="lazy">
+            @if(isset($featuredDishes) && $featuredDishes->isNotEmpty())
+                @foreach($featuredDishes as $dish)
+                    @php
+                        $dishImg = $dish->image ? asset($dish->image) : asset('images/dishes/butter-chicken.jpg');
+                        if (str_contains($dish->slug, 'paneer')) {
+                            $dishImg = asset('images/dishes/paneer-tikka.jpg');
+                        } elseif (str_contains($dish->slug, 'biryani')) {
+                            $dishImg = asset('images/dishes/chicken-biryani.jpg');
+                        } elseif (str_contains($dish->slug, 'dal') || str_contains($dish->slug, 'kadhi')) {
+                            $dishImg = asset('images/dishes/dal-tadka.jpg');
+                        }
+                    @endphp
+                    <div class="dish-card">
+                        <div class="dish-card-img-wrapper">
+                            <img src="{{ $dishImg }}" alt="{{ $dish->name }}" class="dish-card-img" loading="lazy">
+                            <span class="dish-card-price">{{ $dish->formatted_price }}</span>
+                        </div>
+                        <div class="dish-card-body">
+                            <h3 class="dish-card-title">{{ $dish->name }}</h3>
+                            <p class="dish-card-desc">{{ $dish->short_description ?? Str::limit($dish->description, 80) }}</p>
+                            <a href="{{ route('menu') }}" class="btn btn-secondary btn-sm" style="margin-top: auto; padding: 0.5rem 1rem; width: 100%;">
+                                View on Menu &rarr;
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <!-- Butter Chicken -->
+                <div class="dish-card">
+                    <div class="dish-card-img-wrapper">
+                        <img src="{{ asset('images/dishes/butter-chicken.jpg') }}" alt="Paneer Butter Masala" class="dish-card-img" loading="lazy">
+                        <span class="dish-card-price">£10.49</span>
+                    </div>
+                    <div class="dish-card-body">
+                        <h3 class="dish-card-title">Paneer Butter Masala</h3>
+                        <p class="dish-card-desc">Rich, creamy and full of authentic flavours</p>
+                        <a href="{{ route('menu') }}" class="btn btn-secondary btn-sm" style="margin-top: auto; padding: 0.5rem 1rem; width: 100%;">
+                            View on Menu &rarr;
+                        </a>
+                    </div>
                 </div>
-                <div class="dish-card-body">
-                    <h3 class="dish-card-title">Butter Chicken</h3>
-                    <p class="dish-card-desc">Rich, creamy and full of flavour</p>
-                </div>
-            </div>
 
-            <!-- Chicken Biryani -->
-            <div class="dish-card">
-                <div class="dish-card-img-wrapper">
-                    <img src="{{ asset('images/dishes/chicken-biryani.jpg') }}" alt="Chicken Biryani" class="dish-card-img" loading="lazy">
+                <!-- Biryani -->
+                <div class="dish-card">
+                    <div class="dish-card-img-wrapper">
+                        <img src="{{ asset('images/dishes/chicken-biryani.jpg') }}" alt="Hyderabadi Biryani" class="dish-card-img" loading="lazy">
+                        <span class="dish-card-price">£9.00</span>
+                    </div>
+                    <div class="dish-card-body">
+                        <h3 class="dish-card-title">Hyderabadi Biryani</h3>
+                        <p class="dish-card-desc">Aromatic long-grain basmati rice with royal spices</p>
+                        <a href="{{ route('menu') }}" class="btn btn-secondary btn-sm" style="margin-top: auto; padding: 0.5rem 1rem; width: 100%;">
+                            View on Menu &rarr;
+                        </a>
+                    </div>
                 </div>
-                <div class="dish-card-body">
-                    <h3 class="dish-card-title">Chicken Biryani</h3>
-                    <p class="dish-card-desc">Aromatic rice with tender chicken</p>
-                </div>
-            </div>
 
-            <!-- Paneer Tikka -->
-            <div class="dish-card">
-                <div class="dish-card-img-wrapper">
-                    <img src="{{ asset('images/dishes/paneer-tikka.jpg') }}" alt="Paneer Tikka" class="dish-card-img" loading="lazy">
+                <!-- Paneer Tikka -->
+                <div class="dish-card">
+                    <div class="dish-card-img-wrapper">
+                        <img src="{{ asset('images/dishes/paneer-tikka.jpg') }}" alt="Paneer Tikka Masala" class="dish-card-img" loading="lazy">
+                        <span class="dish-card-price">£10.49</span>
+                    </div>
+                    <div class="dish-card-body">
+                        <h3 class="dish-card-title">Paneer Tikka Masala</h3>
+                        <p class="dish-card-desc">Smoky, tandoori grilled and velvety spiced</p>
+                        <a href="{{ route('menu') }}" class="btn btn-secondary btn-sm" style="margin-top: auto; padding: 0.5rem 1rem; width: 100%;">
+                            View on Menu &rarr;
+                        </a>
+                    </div>
                 </div>
-                <div class="dish-card-body">
-                    <h3 class="dish-card-title">Paneer Tikka</h3>
-                    <p class="dish-card-desc">Smoky, flavourful and delicious</p>
-                </div>
-            </div>
 
-            <!-- Dal Tadka -->
-            <div class="dish-card">
-                <div class="dish-card-img-wrapper">
-                    <img src="{{ asset('images/dishes/dal-tadka.jpg') }}" alt="Dal Tadka" class="dish-card-img" loading="lazy">
+                <!-- Dal Tadka -->
+                <div class="dish-card">
+                    <div class="dish-card-img-wrapper">
+                        <img src="{{ asset('images/dishes/dal-tadka.jpg') }}" alt="Dal Tadka" class="dish-card-img" loading="lazy">
+                        <span class="dish-card-price">£8.00</span>
+                    </div>
+                    <div class="dish-card-body">
+                        <h3 class="dish-card-title">Dal Tadka</h3>
+                        <p class="dish-card-desc">Double-tempered yellow lentils with garlic & ghee</p>
+                        <a href="{{ route('menu') }}" class="btn btn-secondary btn-sm" style="margin-top: auto; padding: 0.5rem 1rem; width: 100%;">
+                            View on Menu &rarr;
+                        </a>
+                    </div>
                 </div>
-                <div class="dish-card-body">
-                    <h3 class="dish-card-title">Dal Tadka</h3>
-                    <p class="dish-card-desc">A classic favourite</p>
-                </div>
-            </div>
+            @endif
         </div>
     </div>
 </section>

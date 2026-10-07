@@ -38,6 +38,7 @@ class MenuItem extends Model
         'is_vegan',
         'is_spicy',
         'is_featured',
+        'is_popular',
         'is_available',
         'sort_order',
     ];
@@ -53,6 +54,7 @@ class MenuItem extends Model
         'is_vegan' => 'boolean',
         'is_spicy' => 'boolean',
         'is_featured' => 'boolean',
+        'is_popular' => 'boolean',
         'is_available' => 'boolean',
         'sort_order' => 'integer',
     ];
@@ -143,6 +145,14 @@ class MenuItem extends Model
     public function scopeFeatured(Builder $query): Builder
     {
         return $query->where('is_featured', true);
+    }
+
+    /**
+     * Scope a query to only include popular items.
+     */
+    public function scopePopular(Builder $query): Builder
+    {
+        return $query->where('is_popular', true);
     }
 
     /**

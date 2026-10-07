@@ -28,7 +28,8 @@ class MenuController extends Controller
             ->get();
 
         $selectedCategorySlug = $request->query('category');
+        $tableNumber = $request->query('table');
 
-        return view('menu.index', compact('restaurant', 'categories', 'selectedCategorySlug'));
+        return view('menu.index', compact('restaurant', 'categories', 'selectedCategorySlug', 'tableNumber'));
     }
 }

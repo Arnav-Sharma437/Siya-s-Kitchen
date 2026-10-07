@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Models\MenuCategory;
 use App\Models\MenuItem;
+use Database\Seeders\MenuSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -11,34 +12,67 @@ class MenuTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_public_menu_page_renders_successfully(): void
+    public function test_menu_seeder_populates_all_13_official_categories(): void
     {
-        $category = MenuCategory::create([
-            'name' => 'Signature Curries',
-            'slug' => 'signature-curries',
-            'description' => 'Authentic slow-cooked curries',
-            'sort_order' => 1,
-            'is_active' => true,
-        ]);
+        $this->seed(MenuSeeder::class);
 
-        $item = MenuItem::create([
-            'menu_category_id' => $category->id,
-            'name' => 'Royal Butter Chicken',
-            'slug' => 'royal-butter-chicken',
-            'description' => 'Creamy tomato fenugreek curry',
-            'price' => 1395, // £13.95
-            'is_vegetarian' => false,
-            'is_featured' => true,
-            'is_available' => true,
-        ]);
+        // Verify 13 categories exist
+        $this->assertDatabaseCount('menu_categories', 13);
 
-        $response = $this->get('/menu');
+        $expectedCategories = [
+            'Street Food',
+            'Dhokla & Surti Special',
+            'Sev Usal & Pav Bhaji',
+            'Indian Breads',
+            'Rice & Biryani',
+            'Dal & Kadhi',
+            'Punjabi Specialities',
+            'Kaju Specialities',
+            'Khichya Papdi',
+            'Kathiyawadi Specialities',
+            "Siya's Special",
+            'South Indian',
+            'Indo-Chinese',
+        ];
+
+        foreach ($expectedCategories as $catName) {
+            $this->assertDatabaseHas('menu_categories', [
+                'name' => $catName,
+                'is_active' => true,
+            ]);
+        }
+
+        // Verify specific exact prices in integer pence
+        // Vadapav £2.00 = 200
+        $this->assertDatabaseHas('menu_items', ['name' => 'Regular Vadapav', 'price' => 200]);
+        // Paneer Tikka Masala £10.49 = 1049
+        $this->assertDatabaseHas('menu_items', ['name' => 'Paneer Tikka Masala', 'price' => 1049]);
+        // Cheese Butter Masala £12.49 = 1249
+        $this->assertDatabaseHas('menu_items', ['name' => 'Cheese Butter Masala', 'price' => 1249]);
+        // Snacks Platter £10.00 = 1000
+        $this->assertDatabaseHas('menu_items', ['name' => 'Snacks Platter', 'price' => 1000]);
+        // Extra Pav £0.50 = 50
+        $this->assertDatabaseHas('menu_items', ['name' => 'Extra Pav', 'price' => 50]);
+        // Plain Dosa £4.00 = 400
+        $this->assertDatabaseHas('menu_items', ['name' => 'Plain Dosa', 'price' => 400]);
+        // Popcorn Manchurian £10.00 = 1000
+        $this->assertDatabaseHas('menu_items', ['name' => 'Popcorn Manchurian', 'price' => 1000]);
+    }
+
+    public function test_public_menu_page_renders_seeded_menu_and_qr_table(): void
+    {
+        $this->seed(MenuSeeder::class);
+
+        $response = $this->get('/menu?table=12');
 
         $response->assertStatus(200);
         $response->assertSee('Digital Restaurant Menu');
-        $response->assertSee('Signature Curries');
-        $response->assertSee('Royal Butter Chicken');
-        $response->assertSee('£13.95');
+        $response->assertSee('Table #12');
+        $response->assertSee('Street Food');
+        $response->assertSee('Regular Vadapav');
+        $response->assertSee('£2.00');
+        $response->assertSee('Paneer Tikka Masala');
+        $response->assertSee('£10.49');
     }
 
     public function test_price_formatting_and_pence_integer_handling(): void
@@ -71,6 +105,18 @@ class MenuTest extends TestCase
             'price' => 150,
         ]);
         $this->assertEquals('£1.50', $addon->formatted_price);
+    }
+
+    public function test_homepage_renders_with_menu_cta_and_dishes(): void
+    {
+        $this->seed(MenuSeeder::class);
+
+        $response = $this->get('/');
+
+        $response->assertStatus(200);
+        $response->assertSee("Siya's Kitchen", false);
+        $response->assertSee('Popular Dishes');
+        $response->assertSee('View Full Menu');
     }
 
     public function test_admin_category_and_menu_item_index_routes_render(): void

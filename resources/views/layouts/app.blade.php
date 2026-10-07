@@ -33,6 +33,9 @@
 
         <!-- Reusable Footer -->
         @include('partials.footer')
+
+        <!-- Shared Cart Drawer & Item Modals -->
+        @include('partials.cart-drawer')
     </div>
 
     <!-- Global Application Scripts -->
