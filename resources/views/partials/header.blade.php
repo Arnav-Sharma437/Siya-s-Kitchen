@@ -55,13 +55,26 @@
         </div>
     </div>
 
-    <!-- Mobile Drawer Navigation -->
+    <!-- Mobile Drawer Navigation Overlay -->
     <div class="mobile-nav" id="mobileNav">
-        <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
-        <a href="{{ route('menu') }}" class="nav-link {{ request()->routeIs('menu*') ? 'active' : '' }}">Menu</a>
-        <a href="{{ route('home') }}#about" class="nav-link">About</a>
-        <a href="{{ route('home') }}#gallery" class="nav-link">Gallery</a>
-        <a href="{{ route('home') }}#contact" class="nav-link">Contact</a>
+        <div class="mobile-nav-top">
+            <a href="{{ route('home') }}" class="brand-logo" aria-label="{{ config('restaurant.name') }}">
+                <img src="{{ asset('images/siyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo" class="brand-logo-img" style="width: 48px; height: 48px;">
+            </a>
+            <button type="button" class="mobile-nav-close" id="mobileNavCloseBtn" aria-label="Close menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+        </div>
+        <div class="mobile-nav-links">
+            <a href="{{ route('home') }}" class="mobile-nav-item {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+            <a href="{{ route('menu') }}" class="mobile-nav-item {{ request()->routeIs('menu*') ? 'active' : '' }}">Digital Menu</a>
+            <a href="{{ route('home') }}#about" class="mobile-nav-item">About Us</a>
+            <a href="{{ route('home') }}#gallery" class="mobile-nav-item">Gallery</a>
+            <a href="{{ route('home') }}#contact" class="mobile-nav-item">Contact & Hours</a>
+        </div>
         <div class="mobile-nav-footer">
             <p class="mobile-nav-address">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -70,8 +83,11 @@
                 </svg>
                 {{ config('restaurant.contact.address') }}
             </p>
-            <a href="{{ route('menu') }}" class="btn btn-primary" style="width: 100%;">
-                Order Now &rarr;
+            <a href="{{ route('menu') }}" class="btn btn-primary" style="width: 100%; justify-content: center;">
+                <span>Explore Full Menu</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
             </a>
         </div>
     </div>

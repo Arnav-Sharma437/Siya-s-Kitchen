@@ -453,13 +453,33 @@
         window.addEventListener('scroll', handleScroll, { passive: true });
         handleScroll();
 
-        // --- 2. Mobile Nav Toggle ---
+        // --- 2. Mobile Nav Toggle & Drawer ---
         const mobileToggle = document.querySelector('.mobile-toggle');
-        const mobileNav = document.querySelector('.mobile-nav');
-        if (mobileToggle && mobileNav) {
-            mobileToggle.addEventListener('click', () => {
-                const isOpen = mobileNav.classList.toggle('open');
-                mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        const mobileNav = document.getElementById('mobileNav');
+        const mobileNavCloseBtn = document.getElementById('mobileNavCloseBtn');
+
+        const toggleMobileNav = (open) => {
+            if (!mobileNav) return;
+            const isOpen = typeof open === 'boolean' ? open : !mobileNav.classList.contains('open');
+            mobileNav.classList.toggle('open', isOpen);
+            if (mobileToggle) mobileToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+            document.body.style.overflow = isOpen ? 'hidden' : '';
+        };
+
+        if (mobileToggle) {
+            mobileToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                toggleMobileNav();
+            });
+        }
+
+        if (mobileNavCloseBtn) {
+            mobileNavCloseBtn.addEventListener('click', () => toggleMobileNav(false));
+        }
+
+        if (mobileNav) {
+            mobileNav.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => toggleMobileNav(false));
             });
         }
 
