@@ -28,12 +28,16 @@ jobs:
           ssh-keyscan -p "$SSH_PORT" -H "$SSH_HOST" >> ~/.ssh/known_hosts
           chmod 644 ~/.ssh/known_hosts
 
-          # Configure private key with secure permissions
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          # Clean Windows CRLF line endings, ensure trailing newline, and set permissions
+          printf '%s\n' "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
 
-          # Execute the production deployment script
-          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
+          # Execute the production deployment script with key compatibility flags
+          ssh -i ~/.ssh/id_rsa \
+              -p "$SSH_PORT" \
+              -o PubkeyAcceptedKeyTypes=+ssh-rsa \
+              -o HostkeyAlgorithms=+ssh-rsa \
+              "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
 
           # Clean up private key
           rm -f ~/.ssh/id_rsa
