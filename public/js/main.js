@@ -490,6 +490,21 @@
         const mobileViewCartBtn = document.getElementById('mobileViewCartBtn');
         if (mobileViewCartBtn) mobileViewCartBtn.addEventListener('click', openCartDrawer);
 
+        const appBottomCartBtn = document.getElementById('appBottomCartBtn');
+        if (appBottomCartBtn) appBottomCartBtn.addEventListener('click', openCartDrawer);
+
+        const appBottomSearchTrigger = document.getElementById('appBottomSearchTrigger');
+        if (appBottomSearchTrigger) {
+            appBottomSearchTrigger.addEventListener('click', (e) => {
+                const searchInput = document.getElementById('menuSearchInput');
+                if (searchInput) {
+                    e.preventDefault();
+                    searchInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    setTimeout(() => searchInput.focus(), 300);
+                }
+            });
+        }
+
         const closeCartBtn = document.getElementById('closeCartBtn');
         if (closeCartBtn) closeCartBtn.addEventListener('click', closeCartDrawer);
 

@@ -36,6 +36,9 @@
 
         <!-- Shared Cart Drawer & Item Modals -->
         @include('partials.cart-drawer')
+
+        <!-- Mobile App Bottom Navigation Bar -->
+        @include('partials.bottom-nav')
     </div>
 
     <!-- Global Application Scripts -->

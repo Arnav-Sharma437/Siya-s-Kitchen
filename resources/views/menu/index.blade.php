@@ -155,24 +155,11 @@
                              data-addons='@json($item->addons)'>
                         
                         <div class="menu-item-card-inner">
-                            <!-- Dish Thumbnail Photo -->
-                            <div class="menu-item-thumb-box">
-                                <img src="{{ $itemImage }}" alt="{{ $item->name }}" class="menu-item-thumb-img" loading="lazy">
-                                
-                                @if($item->is_popular)
-                                    <span class="card-corner-badge">★ Popular</span>
-                                @elseif($item->is_featured)
-                                    <span class="card-corner-badge featured">Chef Special</span>
-                                @endif
-                            </div>
-
-                            <!-- Dish Details -->
+                            <!-- Dish Details (Left Column) -->
                             <div class="menu-item-info">
                                 <div class="menu-item-header">
                                     <div class="menu-item-name-group">
-                                        <h3 class="menu-item-name">{{ $item->name }}</h3>
-                                        
-                                        <!-- Dietary Badges -->
+                                        <!-- Dietary Badges (Veg, Vegan, Spicy) -->
                                         <div class="menu-item-badges">
                                             @if($item->is_vegetarian)
                                                 <span class="diet-badge veg" title="Pure Vegetarian">
@@ -199,6 +186,16 @@
                                                 </span>
                                             @endif
                                         </div>
+
+                                        <h3 class="menu-item-name">{{ $item->name }}</h3>
+                                        
+                                        <!-- Price -->
+                                        <div class="menu-item-price-wrap">
+                                            @if($hasVariations)
+                                                <span class="price-prefix">From</span>
+                                            @endif
+                                            <span class="menu-item-price-tag">{{ $item->formatted_price }}</span>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -211,32 +208,35 @@
                                 @if($hasVariations || $hasAddons)
                                     <div class="item-customization-indicators">
                                         @if($hasVariations)
-                                            <span class="cust-indicator-pill">Portions Available</span>
+                                            <span class="cust-indicator-pill">Portions</span>
                                         @endif
                                         @if($hasAddons)
                                             <span class="cust-indicator-pill">Custom Extras</span>
                                         @endif
                                     </div>
                                 @endif
+                            </div>
 
-                                <!-- Price & Action Area -->
-                                <div class="menu-item-footer">
-                                    <div class="menu-item-price-wrap">
-                                        @if($hasVariations)
-                                            <span class="price-prefix">From</span>
-                                        @endif
-                                        <span class="menu-item-price-tag">{{ $item->formatted_price }}</span>
-                                    </div>
+                            <!-- Dish Thumbnail Photo & Floating ADD Action (Right Column) -->
+                            <div class="menu-item-thumb-box">
+                                <div class="menu-item-thumb-img-wrap">
+                                    <img src="{{ $itemImage }}" alt="{{ $item->name }}" class="menu-item-thumb-img" loading="lazy">
+                                    
+                                    @if($item->is_popular)
+                                        <span class="card-corner-badge">★ Popular</span>
+                                    @elseif($item->is_featured)
+                                        <span class="card-corner-badge featured">Chef Special</span>
+                                    @endif
+                                </div>
 
+                                <div class="card-btn-action-wrapper">
                                     <button type="button" class="btn-card-add open-dish-modal-btn" aria-label="Add {{ $item->name }} to order">
-                                        @if($hasVariations || $hasAddons)
-                                            <span>Options</span>
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                                        @else
-                                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                            <span>Add</span>
-                                        @endif
+                                        <span>ADD</span>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
                                     </button>
+                                    @if($hasVariations || $hasAddons)
+                                        <span class="card-customisable-tag">Customisable</span>
+                                    @endif
                                 </div>
                             </div>
                         </div>
