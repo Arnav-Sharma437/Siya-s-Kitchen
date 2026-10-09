@@ -29,7 +29,7 @@
             <!-- 1. Dedicated to Siya Memorial Card -->
             <div class="gallery-card-item">
                 <div class="gallery-card-img-wrap tribute-gallery-wrap">
-                    <img src="{{ asset('images/tribute/dedicated-to-siya.png') }}" alt="Dedicated to Siya" class="gallery-card-img" loading="lazy">
+                    <img src="{{ asset('images/tribute/dedicated-to-siya1.png') }}" alt="Dedicated to Siya" class="gallery-card-img" loading="lazy">
                 </div>
             </div>
 

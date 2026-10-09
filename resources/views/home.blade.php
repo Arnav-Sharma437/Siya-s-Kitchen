@@ -124,7 +124,7 @@
     <div class="container">
         <div class="tribute-home-grid">
             <div class="tribute-home-img-wrap">
-                <img src="{{ asset('images/tribute/dedicated-to-siya.png') }}" alt="Dedicated to Siya" class="tribute-home-img" loading="lazy">
+                <img src="{{ asset('images/tribute/dedicated-to-siya1.png') }}" alt="Dedicated to Siya" class="tribute-home-img" loading="lazy">
             </div>
             <div class="tribute-home-content">
                 <div class="tribute-eyebrow">

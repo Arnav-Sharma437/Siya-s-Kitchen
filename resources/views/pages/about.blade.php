@@ -28,7 +28,7 @@
             <!-- Left Tribute Memorial Card -->
             <div class="tribute-card-visual">
                 <div class="tribute-frame">
-                    <img src="{{ asset('images/tribute/dedicated-to-siya.png') }}" alt="Dedicated to Siya - Siya's Kitchen Tribute" class="tribute-img" loading="lazy">
+                    <img src="{{ asset('images/tribute/dedicated-to-siya1.png') }}" alt="Dedicated to Siya - Siya's Kitchen Tribute" class="tribute-img" loading="lazy">
                     <div class="tribute-badge-pill">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="#D9531E" stroke="#D9531E">
                             <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
