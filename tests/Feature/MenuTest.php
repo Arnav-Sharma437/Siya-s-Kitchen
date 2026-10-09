@@ -136,7 +136,7 @@ class MenuTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertSee('Our Food Gallery');
-        $response->assertSee('Dedicated to Siya');
+        $response->assertSee('Crispy Masala Dosa & Sambar', false);
         $response->assertSee('Paneer Butter Masala');
     }
 

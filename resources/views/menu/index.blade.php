@@ -116,20 +116,33 @@
             <div class="menu-items-grid">
                 @forelse($category->menuItems as $item)
                     @php
-                        // Determine fallback image based on category keywords
+                        // Intelligently assign appetizing food photos to every category
                         $catSlug = $category->slug;
+                        $itemNameLower = strtolower($item->name);
                         $itemImage = $item->image ? asset($item->image) : null;
                         if (!$itemImage) {
-                            if (str_contains($catSlug, 'street-food') || str_contains($catSlug, 'vadapav') || str_contains($catSlug, 'dabeli')) {
-                                $itemImage = asset('images/dishes/dish-paneer-tikka.jpg');
-                            } elseif (str_contains($catSlug, 'biryani') || str_contains($catSlug, 'rice')) {
-                                $itemImage = asset('images/dishes/dish-biryani.jpg');
-                            } elseif (str_contains($catSlug, 'dal') || str_contains($catSlug, 'kadhi')) {
-                                $itemImage = asset('images/dishes/dish-dal.jpg');
-                            } elseif (str_contains($catSlug, 'bread')) {
+                            if (str_contains($catSlug, 'dhokla') || str_contains($catSlug, 'surti') || str_contains($itemNameLower, 'locho') || str_contains($itemNameLower, 'khaman')) {
+                                $itemImage = asset('images/gallery/gallery-2.jpg');
+                            } elseif (str_contains($catSlug, 'street-food') || str_contains($itemNameLower, 'pani puri') || str_contains($itemNameLower, 'chaat') || str_contains($itemNameLower, 'vadapav') || str_contains($itemNameLower, 'dabeli') || str_contains($itemNameLower, 'sandwich') || str_contains($itemNameLower, 'chips')) {
+                                $itemImage = asset('images/gallery/gallery-1.jpg');
+                            } elseif (str_contains($catSlug, 'south-indian') || str_contains($itemNameLower, 'dosa') || str_contains($itemNameLower, 'uttapam')) {
+                                $itemImage = asset('images/gallery/gallery-5.jpg');
+                            } elseif (str_contains($catSlug, 'indo-chinese') || str_contains($itemNameLower, 'noodle') || str_contains($itemNameLower, 'manchurian') || str_contains($itemNameLower, 'bhel')) {
                                 $itemImage = asset('images/gallery/gallery-4.jpg');
+                            } elseif (str_contains($catSlug, 'rice') || str_contains($catSlug, 'biryani') || str_contains($itemNameLower, 'biryani') || str_contains($itemNameLower, 'khichdi') || str_contains($itemNameLower, 'pulao') || str_contains($itemNameLower, 'pulav')) {
+                                $itemImage = asset('images/dishes/chicken-biryani.jpg');
+                            } elseif (str_contains($catSlug, 'dal') || str_contains($catSlug, 'kadhi')) {
+                                $itemImage = asset('images/dishes/dal-tadka.jpg');
+                            } elseif (str_contains($catSlug, 'bread') || str_contains($itemNameLower, 'naan') || str_contains($itemNameLower, 'roti') || str_contains($itemNameLower, 'chapati')) {
+                                $itemImage = asset('images/gallery/gallery-garlic-naan.jpg');
+                            } elseif (str_contains($catSlug, 'punjabi') || str_contains($itemNameLower, 'paneer')) {
+                                $itemImage = asset('images/dishes/paneer-tikka.jpg');
+                            } elseif (str_contains($catSlug, 'kaju') || str_contains($catSlug, 'special')) {
+                                $itemImage = asset('images/home/hero-kadai.jpg');
+                            } elseif (str_contains($catSlug, 'kathiyawadi') || str_contains($catSlug, 'khichya') || str_contains($catSlug, 'sev-usal')) {
+                                $itemImage = asset('images/gallery/gallery-3.jpg');
                             } else {
-                                $itemImage = asset('images/dishes/dish-butter-chicken.jpg');
+                                $itemImage = asset('images/dishes/butter-chicken.jpg');
                             }
                         }
 

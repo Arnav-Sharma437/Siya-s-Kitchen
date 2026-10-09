@@ -26,10 +26,13 @@
     <div class="container">
         <!-- Gallery Showcase Grid -->
         <div class="gallery-showcase-grid">
-            <!-- 1. Dedicated to Siya Memorial Card -->
+            <!-- 1. South Indian Delights -->
             <div class="gallery-card-item">
-                <div class="gallery-card-img-wrap tribute-gallery-wrap">
-                    <img src="{{ asset('images/tribute/dedicated-to-siya1.png') }}" alt="Dedicated to Siya" class="gallery-card-img" loading="lazy">
+                <div class="gallery-card-img-wrap">
+                    <img src="{{ asset('images/gallery/gallery-5.jpg') }}" alt="Crispy Masala Dosa & Sambar" class="gallery-card-img" loading="lazy">
+                    <div class="gallery-caption-strip">
+                        <span>Crispy Masala Dosa & Sambar</span>
+                    </div>
                 </div>
             </div>
 
