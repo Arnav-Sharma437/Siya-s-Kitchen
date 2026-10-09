@@ -6,54 +6,30 @@
 <!-- =========================================================================
      1. HERO SECTION WITH BACKGROUND BANNER IMAGE
      ========================================================================= -->
-<section class="hero-section" id="hero" style="background-image: linear-gradient(180deg, rgba(14, 10, 7, 0.72) 0%, rgba(14, 10, 7, 0.88) 100%), url('{{ asset('images/home/hero-bg.jpg') }}');">
+<section class="hero-section" id="hero" style="background-image: url('{{ asset('images/home/hero-bg.jpg') }}'); background-size: cover; background-position: center;">
     <div class="container">
-        <div class="hero-grid">
-            <!-- Left Hero Content -->
-            <div class="hero-content">
-                <div class="hero-eyebrow">
-                    <span>{{ config('restaurant.subtitle') }}</span>
-                </div>
-                <h1 class="hero-title">
-                    Flavours<br>
-                    That Feel Like<br>
-                    <span class="highlight">Home</span>
-                </h1>
-                <p class="hero-description">
-                    At {{ config('restaurant.name') }}, we bring you the true taste of India with fresh ingredients, traditional recipes and a warm, family-friendly atmosphere in the heart of London.
-                </p>
-                <div class="hero-buttons">
-                    <a href="{{ route('menu') }}" class="btn btn-primary">
-                        <span>Order Now</span>
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                            <path d="M5 12h14M12 5l7 7-7 7"/>
-                        </svg>
-                    </a>
-                    <a href="{{ route('menu') }}" class="btn btn-outline-glass">
-                        <span>View Menu</span>
-                    </a>
-                </div>
+        <div class="hero-content">
+            <div class="hero-eyebrow">
+                <span>{{ config('restaurant.subtitle') }}</span>
             </div>
-
-            <!-- Right Hero Visual & Decorative Badge -->
-            <div class="hero-visual">
-                <div class="hero-dish-wrapper">
-                    <div class="hero-glow-ring"></div>
-                    <!-- Ultra High-Res Sizzling Kadai Curry -->
-                    <img src="{{ asset('images/home/hero-kadai.jpg') }}" alt="Siya's Kitchen Signature Sizzling Kadai Curry" class="hero-dish-img">
-                    
-                    <!-- Floating Script Accent Badge -->
-                    <div class="hero-floating-badge">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#D9531E" stroke="#D9531E">
-                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                        </svg>
-                        <span class="script-text">Good Food</span>
-                        <span class="badge-sub">Brings People Together</span>
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="#D9531E" stroke="#D9531E" style="margin-top: 0.15rem;">
-                            <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
-                        </svg>
-                    </div>
-                </div>
+            <h1 class="hero-title">
+                Flavours<br>
+                That Feel Like<br>
+                <span class="highlight">Home</span>
+            </h1>
+            <p class="hero-description">
+                At {{ config('restaurant.name') }}, we bring you the true taste of India with fresh ingredients, traditional recipes and a warm, family-friendly atmosphere in the heart of London.
+            </p>
+            <div class="hero-buttons">
+                <a href="{{ route('menu') }}" class="btn btn-primary">
+                    <span>Order Now</span>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="{{ route('menu') }}" class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.9); color: var(--text-dark); border-color: rgba(255, 255, 255, 0.9);">
+                    <span>View Menu</span>
+                </a>
             </div>
         </div>
     </div>
