@@ -11,9 +11,9 @@
                 <ul class="nav-links">
                     <li><a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
                     <li><a href="{{ route('menu') }}" class="nav-link {{ request()->routeIs('menu*') ? 'active' : '' }}">Menu</a></li>
-                    <li><a href="{{ route('home') }}#about" class="nav-link">About</a></li>
-                    <li><a href="{{ route('home') }}#gallery" class="nav-link">Gallery</a></li>
-                    <li><a href="{{ route('home') }}#contact" class="nav-link">Contact</a></li>
+                    <li><a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about*') ? 'active' : '' }}">About</a></li>
+                    <li><a href="{{ route('gallery') }}" class="nav-link {{ request()->routeIs('gallery*') ? 'active' : '' }}">Gallery</a></li>
+                    <li><a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact*') ? 'active' : '' }}">Contact</a></li>
                 </ul>
             </nav>
 
@@ -71,9 +71,9 @@
         <div class="mobile-nav-links">
             <a href="{{ route('home') }}" class="mobile-nav-item {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
             <a href="{{ route('menu') }}" class="mobile-nav-item {{ request()->routeIs('menu*') ? 'active' : '' }}">Digital Menu</a>
-            <a href="{{ route('home') }}#about" class="mobile-nav-item">About Us</a>
-            <a href="{{ route('home') }}#gallery" class="mobile-nav-item">Gallery</a>
-            <a href="{{ route('home') }}#contact" class="mobile-nav-item">Contact & Hours</a>
+            <a href="{{ route('about') }}" class="mobile-nav-item {{ request()->routeIs('about*') ? 'active' : '' }}">About Us</a>
+            <a href="{{ route('gallery') }}" class="mobile-nav-item {{ request()->routeIs('gallery*') ? 'active' : '' }}">Gallery</a>
+            <a href="{{ route('contact') }}" class="mobile-nav-item {{ request()->routeIs('contact*') ? 'active' : '' }}">Contact & Hours</a>
         </div>
         <div class="mobile-nav-footer">
             <p class="mobile-nav-address">

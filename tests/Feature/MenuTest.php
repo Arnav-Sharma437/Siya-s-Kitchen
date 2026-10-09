@@ -119,14 +119,49 @@ class MenuTest extends TestCase
         $response->assertSee('View Full Menu');
     }
 
-    public function test_admin_category_and_menu_item_index_routes_render(): void
+    public function test_about_page_renders_with_siya_tribute(): void
     {
-        $responseCategory = $this->get('/admin/categories');
-        $responseCategory->assertStatus(200);
-        $responseCategory->assertSee('Menu Categories');
+        $response = $this->get('/about');
 
-        $responseItems = $this->get('/admin/menu-items');
-        $responseItems->assertStatus(200);
-        $responseItems->assertSee('Menu Items');
+        $response->assertStatus(200);
+        $response->assertSee("DEDICATED TO SIYA");
+        $response->assertSee("They Stay in Every Flavor", false);
+        $response->assertSee("453 Alexandra Avenue, Harrow", false);
+        $response->assertSee("020 8259 4954");
+    }
+
+    public function test_gallery_page_renders_with_categories(): void
+    {
+        $this->seed(MenuSeeder::class);
+
+        $response = $this->get('/gallery');
+
+        $response->assertStatus(200);
+        $response->assertSee('Our Food Gallery');
+        $response->assertSee('Street Food & Chaat', false);
+        $response->assertSee('Dedicated to Siya');
+    }
+
+    public function test_contact_page_renders_and_handles_form_submission(): void
+    {
+        $response = $this->get('/contact');
+
+        $response->assertStatus(200);
+        $response->assertSee('453 Alexandra Avenue, Harrow', false);
+        $response->assertSee('020 8259 4954');
+        $response->assertSee('siyaskitchen9@gmail.com');
+
+        // Test form submission
+        $postResponse = $this->post('/contact', [
+            'name' => 'Aarav Patel',
+            'email' => 'aarav@example.com',
+            'phone' => '07123456789',
+            'inquiry_type' => 'reservation',
+            'subject' => 'Table for 4',
+            'message' => 'We would love to reserve a table for this Saturday evening at 7 PM.',
+        ]);
+
+        $postResponse->assertRedirect('/contact');
+        $postResponse->assertSessionHas('success');
     }
 }

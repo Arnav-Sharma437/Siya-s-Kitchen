@@ -118,7 +118,44 @@
 </section>
 
 <!-- =========================================================================
-     3. POPULAR DISHES (OUR SPECIALTIES - HIGH RES FOOD PHOTOGRAPHY)
+     3. DEDICATED TO SIYA - HEARTFELT MEMORIAL SECTION
+     ========================================================================= -->
+<section class="section-padding tribute-home-strip" style="background: linear-gradient(135deg, rgba(22, 16, 12, 0.96) 0%, rgba(35, 23, 16, 0.98) 100%); color: #FFFFFF; position: relative; overflow: hidden; border-top: 1px solid rgba(212, 163, 115, 0.25); border-bottom: 1px solid rgba(212, 163, 115, 0.25);">
+    <div class="container">
+        <div class="tribute-home-grid">
+            <div class="tribute-home-img-wrap">
+                <img src="{{ asset('images/tribute/dedicated-to-siya.png') }}" alt="Dedicated to Siya" class="tribute-home-img" loading="lazy">
+            </div>
+            <div class="tribute-home-content">
+                <div class="tribute-eyebrow">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="#D9531E">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                    <span>DEDICATED TO SIYA</span>
+                </div>
+                <h2 class="tribute-heading" style="color: #FFFFFF;">
+                    Some People Never Leave...<br>
+                    <span class="highlight">They Stay in Every Flavor.</span>
+                </h2>
+                <p class="tribute-text" style="color: var(--text-light-muted); font-size: 1.08rem; line-height: 1.7; margin: 1.25rem 0 1.75rem;">
+                    Her spirit lives on in the recipes she cherished and the warmth of this kitchen. This restaurant is a tribute to her memory — a celebration of love, flavor, and family.
+                </p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="{{ route('about') }}#tribute" class="btn btn-primary">
+                        <span>Read Siya's Story</span>
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </a>
+                    <a href="{{ route('menu') }}" class="btn btn-outline-glass">
+                        <span>View Tribute Menu</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- =========================================================================
+     4. POPULAR DISHES (OUR SPECIALTIES - HIGH RES FOOD PHOTOGRAPHY)
      ========================================================================= -->
 <section class="section-padding" id="specialties">
     <div class="container">
@@ -231,7 +268,7 @@
 </section>
 
 <!-- =========================================================================
-     4. ABOUT SIYA'S KITCHEN (HIGH RES INTERIOR PHOTOGRAPHY)
+     5. ABOUT SIYA'S KITCHEN (HIGH RES INTERIOR PHOTOGRAPHY)
      ========================================================================= -->
 <section class="about-section" id="about">
     <div class="container">
@@ -240,27 +277,27 @@
                 <div class="section-eyebrow">ABOUT SIYA'S KITCHEN</div>
                 <h2 class="section-title">
                     A Taste of India<br>
-                    in the Heart of London
+                    in Harrow, London
                 </h2>
                 <p>
-                    Siya's Kitchen by Jalaram Group was created with a simple vision – to serve authentic Indian food prepared with fresh ingredients, traditional recipes and a whole lot of love. Whether you're dining with family, meeting friends or celebrating a special occasion, we are here to make it a memorable experience.
+                    Siya's Kitchen by Jalaram Group was created with a simple vision – to serve authentic Gujarati delicacies, Surti snacks, and North Indian curries prepared with fresh ingredients, traditional recipes, and unconditional love in memory of Siya.
                 </p>
-                <a href="{{ route('menu') }}" class="btn btn-primary">
-                    <span>Our Story</span>
+                <a href="{{ route('about') }}" class="btn btn-primary">
+                    <span>Read Our Full Story</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
             </div>
             <div class="about-img-box">
-                <img src="{{ asset('images/home/about-interior.jpg') }}" alt="Siya's Kitchen London Restaurant Dining Room Ambiance" loading="lazy">
+                <img src="{{ asset('images/about/about-interior.jpg') }}" alt="Siya's Kitchen Harrow Restaurant Dining Room Ambiance" loading="lazy">
             </div>
         </div>
     </div>
 </section>
 
 <!-- =========================================================================
-     5. OUR GALLERY (HIGH RES PHOTOGRAPHY)
+     6. OUR GALLERY (HIGH RES PHOTOGRAPHY)
      ========================================================================= -->
 <section class="gallery-section" id="gallery">
     <div class="container">
@@ -272,8 +309,8 @@
                     <span class="section-title-line"></span>
                 </h2>
             </div>
-            <a href="{{ route('menu') }}" class="btn btn-secondary">
-                <span>View Gallery</span>
+            <a href="{{ route('gallery') }}" class="btn btn-secondary">
+                <span>View Full Gallery</span>
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
