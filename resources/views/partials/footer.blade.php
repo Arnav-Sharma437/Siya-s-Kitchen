@@ -4,7 +4,7 @@
             <!-- Brand Column -->
             <div class="footer-brand">
                 <a href="{{ route('home') }}" class="footer-brand-logo" aria-label="{{ config('restaurant.name') }}" title="{{ config('restaurant.name') }}">
-                    <img src="{{ asset('images/siyas-logo.jpg') }}" alt="{{ config('restaurant.name') }} Logo">
+                    <img src="{{ asset('images/siyas-logo.png') }}" alt="{{ config('restaurant.name') }} Logo">
                 </a>
                 <p class="footer-brand-desc">
                     Authentic Gujarati delicacies, Surti snacks, and North Indian curries in Harrow, London.

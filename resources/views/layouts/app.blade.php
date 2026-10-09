@@ -9,7 +9,7 @@
     <meta name="description" content="@yield('meta_description', 'Experience authentic Indian dining and online ordering in London at ' . config('restaurant.name') . '. Fresh ingredients, traditional recipes and warm hospitality.')">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/jpeg" href="{{ asset('images/siyas-logo.jpg') }}">
+    <link rel="icon" type="image/png" href="{{ asset('images/siyas-logo.png') }}">
 
     <!-- Google Fonts: Recoleta-style (Fraunces & DM Serif Display) + Instrumental (Instrument Sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
