@@ -130,16 +130,14 @@ class MenuTest extends TestCase
         $response->assertSee("020 8259 4954");
     }
 
-    public function test_gallery_page_renders_with_categories(): void
+    public function test_gallery_page_renders_with_photos(): void
     {
-        $this->seed(MenuSeeder::class);
-
         $response = $this->get('/gallery');
 
         $response->assertStatus(200);
         $response->assertSee('Our Food Gallery');
-        $response->assertSee('Street Food & Chaat', false);
         $response->assertSee('Dedicated to Siya');
+        $response->assertSee('Paneer Butter Masala');
     }
 
     public function test_contact_page_renders_and_handles_form_submission(): void
