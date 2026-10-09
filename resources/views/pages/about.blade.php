@@ -109,13 +109,11 @@
      ========================================================================= -->
 <section class="section-padding bg-cream-alt">
     <div class="container">
-        <div class="section-header text-center" style="max-width: 650px; margin: 0 auto 3rem;">
+        <div class="section-header-center">
             <div class="section-eyebrow">OUR ETHOS & PASSION</div>
-            <h2 class="section-title">
-                Crafted with Tradition, Served with Warmth
-                <span class="section-title-line" style="margin: 0.5rem auto 0;"></span>
-            </h2>
-            <p class="section-subtitle" style="margin-top: 0.8rem;">
+            <h2 class="section-title">Crafted with Tradition, Served with Warmth</h2>
+            <div class="section-title-line"></div>
+            <p class="section-subtitle">
                 Every spice blend ground in-house, every locho steamed live, and every curry slow-simmered to perfection.
             </p>
         </div>

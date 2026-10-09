@@ -569,6 +569,16 @@ button, input {
   margin-bottom: 3.25rem;
 }
 
+.section-header-center,
+.section-header.text-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 780px;
+  margin: 0 auto 3.25rem auto;
+}
+
 .section-eyebrow {
   font-family: var(--font-sans);
   font-size: 0.92rem;
@@ -581,13 +591,20 @@ button, input {
 
 .section-title {
   font-family: var(--font-serif);
-  font-size: 3.1rem;
+  font-size: clamp(2.1rem, 4.5vw, 3.1rem);
   font-weight: 700;
   color: var(--text-dark);
-  line-height: 1.18;
+  line-height: 1.22;
   display: inline-flex;
   align-items: center;
   gap: 0.9rem;
+}
+
+.section-header-center .section-title,
+.section-header.text-center .section-title {
+  display: block;
+  text-align: center;
+  margin-bottom: 0.4rem;
 }
 
 .section-title-line {
@@ -596,6 +613,21 @@ button, input {
   height: 2.5px;
   background-color: var(--gold-accent);
   border-radius: var(--radius-full);
+}
+
+.section-header-center .section-title-line,
+.section-header.text-center .section-title-line {
+  display: block;
+  margin: 0.6rem auto 1rem auto;
+}
+
+.section-subtitle {
+  font-family: var(--font-sans);
+  font-size: 1.06rem;
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 640px;
+  margin: 0 auto;
 }
 
 /* ==========================================================================
