@@ -6,11 +6,14 @@
 <!-- =========================================================================
      1. HERO SECTION WITH BACKGROUND BANNER IMAGE
      ========================================================================= -->
-<section class="hero-section" id="hero" style="background-image: url('{{ asset('images/home/hero-bg.jpg') }}'); background-size: cover; background-position: center;">
+<section class="hero-section" id="hero" style="background-image: linear-gradient(90deg, rgba(14, 9, 6, 0.92) 0%, rgba(14, 9, 6, 0.80) 45%, rgba(14, 9, 6, 0.25) 75%, rgba(14, 9, 6, 0.08) 100%), url('{{ asset('images/home/hero-bg.jpg') }}'); background-size: cover; background-position: center right;">
     <div class="container">
         <div class="hero-content">
             <div class="hero-eyebrow">
-                <span>{{ config('restaurant.subtitle') }}</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 2C8 6 6 10 6 14a6 6 0 0 0 12 0c0-4-2-8-6-12Z"/>
+                </svg>
+                <span>AUTHENTIC INDIAN CUISINE • HARROW, LONDON</span>
             </div>
             <h1 class="hero-title">
                 Flavours<br>
@@ -18,7 +21,7 @@
                 <span class="highlight">Home</span>
             </h1>
             <p class="hero-description">
-                At {{ config('restaurant.name') }}, we bring you the true taste of India with fresh ingredients, traditional recipes and a warm, family-friendly atmosphere in the heart of London.
+                At Siya's Kitchen, we bring you the true taste of India with fresh ingredients, traditional recipes and a warm, family-friendly atmosphere in the heart of London.
             </p>
             <div class="hero-buttons">
                 <a href="{{ route('menu') }}" class="btn btn-primary">
@@ -27,7 +30,7 @@
                         <path d="M5 12h14M12 5l7 7-7 7"/>
                     </svg>
                 </a>
-                <a href="{{ route('menu') }}" class="btn btn-secondary" style="background: rgba(255, 255, 255, 0.9); color: var(--text-dark); border-color: rgba(255, 255, 255, 0.9);">
+                <a href="{{ route('menu') }}" class="btn btn-outline-glass">
                     <span>View Menu</span>
                 </a>
             </div>
