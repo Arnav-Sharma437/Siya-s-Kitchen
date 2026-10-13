@@ -162,4 +162,18 @@ class MenuTest extends TestCase
         $postResponse->assertRedirect('/contact');
         $postResponse->assertSessionHas('success');
     }
+
+    public function test_all_pages_use_siyas_kitchen_branding_and_no_suyas(): void
+    {
+        $urls = ['/', '/menu', '/about', '/gallery', '/contact'];
+
+        foreach ($urls as $url) {
+            $response = $this->get($url);
+            $response->assertStatus(200);
+            $response->assertSee("Siya's Kitchen", false);
+            $response->assertDontSee("Suyas", false);
+            $response->assertDontSee("Suya's", false);
+            $response->assertDontSee("suyas", false);
+        }
+    }
 }

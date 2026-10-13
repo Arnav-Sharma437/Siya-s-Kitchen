@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', config('restaurant.name') . ' - Authentic Indian Cuisine • London')
+@section('title', "Siya's Kitchen - Authentic Indian Cuisine • Harrow, London")
+@section('meta_description', "Welcome to Siya's Kitchen in Harrow, London. Authentic Gujarati street delicacies, Surti locho, street chaat, tandoori breads, and North Indian curries crafted with love.")
 
 @section('content')
 <!-- =========================================================================

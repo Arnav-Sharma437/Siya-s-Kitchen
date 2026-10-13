@@ -3,8 +3,8 @@
         <div class="footer-grid">
             <!-- Brand Column -->
             <div class="footer-brand">
-                <a href="{{ route('home') }}" class="footer-brand-logo" aria-label="{{ config('restaurant.name') }}" title="{{ config('restaurant.name') }}">
-                    <img src="{{ asset('images/siyas-logo.png') }}" alt="{{ config('restaurant.name') }} Logo">
+                <a href="{{ route('home') }}" class="footer-brand-logo" aria-label="Siya's Kitchen" title="Siya's Kitchen">
+                    <img src="{{ asset('images/siyas-logo.png') }}" alt="Siya's Kitchen Logo">
                 </a>
                 <p class="footer-brand-desc">
                     Authentic Gujarati delicacies, Surti snacks, and North Indian curries in Harrow, London.

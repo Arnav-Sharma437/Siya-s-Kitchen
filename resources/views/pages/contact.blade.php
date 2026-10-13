@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Contact Us & Location - ' . config('restaurant.name') . ' Harrow, London')
-@section('meta_description', 'Contact Siya\'s Kitchen in Harrow, London. Find our address at 453 Alexandra Avenue, HA2 9SE, phone 02082594954, opening hours, directions, and table reservation inquiries.')
+@section('title', "Contact Us & Location - Siya's Kitchen Harrow, London")
+@section('meta_description', 'Contact Siya\'s Kitchen in Harrow, London. Find our address at 453 Alexandra Avenue, HA2 9SE, phone 020 8259 4954, opening hours, directions, and table reservation inquiries.')
 
 @section('content')
 <!-- =========================================================================

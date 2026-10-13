@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Photo Gallery - ' . config('restaurant.name') . ' Harrow, London')
+@section('title', "Photo Gallery - Siya's Kitchen Harrow, London")
 @section('meta_description', 'Browse our vibrant food gallery at ' . config('restaurant.name') . ' in Harrow, London. Authentic Gujarati street food, Surti specials, North Indian curries, and heartfelt hospitality.')
 
 @section('content')

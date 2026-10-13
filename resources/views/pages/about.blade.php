@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'About Us & Dedicated to Siya - ' . config('restaurant.name') . ' Harrow, London')
+@section('title', "About Us & Dedicated to Siya - Siya's Kitchen Harrow, London")
 @section('meta_description', 'Discover the heartfelt story behind Siya\'s Kitchen in Harrow, London. Born as a loving tribute to Siya, serving authentic Gujarati street food, Surti specials, and North Indian curries made with everlasting love.')
 
 @section('content')

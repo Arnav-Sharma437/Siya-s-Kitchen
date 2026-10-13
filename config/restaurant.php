@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'name' => env('RESTAURANT_NAME', "Siya's Kitchen"),
+    'name' => "Siya's Kitchen",
     'tagline' => env('RESTAURANT_TAGLINE', 'by Jalaram Group'),
     'subtitle' => env('RESTAURANT_SUBTITLE', 'Authentic Indian Cuisine • Harrow, London'),
     'currency' => [

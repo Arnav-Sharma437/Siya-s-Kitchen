@@ -5,8 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>@yield('title', config('restaurant.name') . ' | ' . config('restaurant.subtitle'))</title>
-    <meta name="description" content="@yield('meta_description', 'Experience authentic Indian dining and online ordering in London at ' . config('restaurant.name') . '. Fresh ingredients, traditional recipes and warm hospitality.')">
+    <title>@yield('title', "Siya's Kitchen | Authentic Indian Cuisine • Harrow, London")</title>
+    <meta name="description" content="@yield('meta_description', 'Experience authentic Indian dining and online ordering in Harrow, London at Siya\'s Kitchen. Fresh ingredients, traditional recipes and warm hospitality.')">
+
+    <!-- Open Graph / WhatsApp / Facebook -->
+    <meta property="og:type" content="restaurant">
+    <meta property="og:site_name" content="Siya's Kitchen">
+    <meta property="og:title" content="@yield('title', 'Siya\'s Kitchen | Authentic Indian Cuisine • Harrow, London')">
+    <meta property="og:description" content="@yield('meta_description', 'Experience authentic Indian dining and online ordering in Harrow, London at Siya\'s Kitchen.')">
+    <meta property="og:image" content="{{ asset('images/siyas-logo.png') }}">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="@yield('title', 'Siya\'s Kitchen | Authentic Indian Cuisine • Harrow, London')">
+    <meta name="twitter:description" content="@yield('meta_description', 'Experience authentic Indian dining and online ordering in Harrow, London at Siya\'s Kitchen.')">
+    <meta name="twitter:image" content="{{ asset('images/siyas-logo.png') }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="{{ asset('images/siyas-logo.png') }}">

@@ -2,8 +2,8 @@
     <div class="container">
         <div class="nav-wrapper">
             <!-- Brand Logo -->
-            <a href="{{ route('home') }}" class="brand-logo" aria-label="{{ config('restaurant.name') }}" title="{{ config('restaurant.name') }}">
-                <img src="{{ asset('images/siyas-logo.png') }}" alt="{{ config('restaurant.name') }} Logo" class="brand-logo-img">
+            <a href="{{ route('home') }}" class="brand-logo" aria-label="Siya's Kitchen" title="Siya's Kitchen">
+                <img src="{{ asset('images/siyas-logo.png') }}" alt="Siya's Kitchen Logo" class="brand-logo-img">
             </a>
 
             <!-- Desktop Navigation Links -->
@@ -58,8 +58,8 @@
     <!-- Mobile Drawer Navigation Overlay -->
     <div class="mobile-nav" id="mobileNav">
         <div class="mobile-nav-top">
-            <a href="{{ route('home') }}" class="brand-logo" aria-label="{{ config('restaurant.name') }}">
-                <img src="{{ asset('images/siyas-logo.png') }}" alt="{{ config('restaurant.name') }} Logo" class="brand-logo-img" style="width: 48px; height: 48px;">
+            <a href="{{ route('home') }}" class="brand-logo" aria-label="Siya's Kitchen">
+                <img src="{{ asset('images/siyas-logo.png') }}" alt="Siya's Kitchen Logo" class="brand-logo-img" style="width: 48px; height: 48px;">
             </a>
             <button type="button" class="mobile-nav-close" id="mobileNavCloseBtn" aria-label="Close menu">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">

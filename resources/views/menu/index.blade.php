@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Digital Menu & Online Ordering - ' . config('restaurant.name') . ' London')
-@section('meta_description', 'Browse the authentic digital menu for ' . config('restaurant.name') . ' in London. Street food, Surti locho, pav bhaji, paneer curries, tandoori breads, and biryani with instant table QR ordering.')
+@section('title', "Digital Menu & Online Ordering - Siya's Kitchen Harrow, London")
+@section('meta_description', "Browse the authentic digital menu for Siya's Kitchen in Harrow, London. Street food, Surti locho, pav bhaji, paneer curries, tandoori breads, and biryani with instant table QR ordering.")
 
 @section('content')
 <!-- =========================================================================
