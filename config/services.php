@@ -35,4 +35,13 @@ return [
         ],
     ],
 
+    'teya' => [
+        'env' => env('TEYA_ENV', 'sandbox'),
+        'store_id' => env('TEYA_STORE_ID'),
+        'client_id' => env('TEYA_CLIENT_ID'),
+        'client_secret' => env('TEYA_CLIENT_SECRET'),
+        'webhook_public_key' => env('TEYA_WEBHOOK_PUBLIC_KEY'),
+        'return_url_base' => env('TEYA_RETURN_URL_BASE'),
+    ],
+
 ];

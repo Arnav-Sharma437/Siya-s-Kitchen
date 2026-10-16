@@ -564,10 +564,10 @@
             });
         }
 
-        // --- 6. Checkout CTA ---
+        // --- 6. Checkout CTA (Teya Hosted Checkout) ---
         const proceedCheckoutBtn = document.getElementById('proceedCheckoutBtn');
         if (proceedCheckoutBtn) {
-            proceedCheckoutBtn.addEventListener('click', () => {
+            proceedCheckoutBtn.addEventListener('click', async () => {
                 if (cart.length === 0) {
                     showToast('Your order basket is empty', 'ℹ');
                     return;
@@ -580,11 +580,57 @@
                     return;
                 }
 
-                const summaryText = orderSettings.orderType === 'dine_in'
-                    ? `Dine-In Order for Table #${orderSettings.tableNumber}`
-                    : `Takeaway Order`;
+                const originalBtnHtml = proceedCheckoutBtn.innerHTML;
+                const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+                const notesInput = document.getElementById('cartOrderNotes');
 
-                alert(`Order Confirmed!\n\n${summaryText}\nItems: ${cart.length}\nTotal: ${formatPounds(cart.reduce((sum, i) => sum + i.lineTotal, 0))}\n\nYour order has been recorded for kitchen preparation.`);
+                proceedCheckoutBtn.disabled = true;
+                proceedCheckoutBtn.innerHTML = `
+                    <span>Redirecting to Teya...</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="spin-icon" style="animation: spin 1s linear infinite;">
+                        <circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+                        <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor"></path>
+                    </svg>
+                `;
+
+                try {
+                    const payload = {
+                        order_type: orderSettings.orderType,
+                        table_number: orderSettings.tableNumber || null,
+                        special_instructions: notesInput ? notesInput.value.trim() : null,
+                        cart: cart.map(item => ({
+                            menuItemId: item.menuItemId,
+                            quantity: item.quantity,
+                            variation: item.variation ? { name: item.variation.name } : null,
+                            addons: item.addons ? item.addons.map(a => ({ name: a.name })) : [],
+                            specialInstructions: item.specialInstructions || null
+                        }))
+                    };
+
+                    const response = await fetch('/checkout/teya', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json'
+                        },
+                        body: JSON.stringify(payload)
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok && data.success && data.redirect_url) {
+                        // Redirect customer directly to Teya Hosted Checkout page
+                        window.location.href = data.redirect_url;
+                    } else {
+                        throw new Error(data.message || 'Unable to start checkout session.');
+                    }
+                } catch (err) {
+                    console.error('Checkout error:', err);
+                    alert(err.message || 'There was an issue initiating your payment. Please try again.');
+                    proceedCheckoutBtn.disabled = false;
+                    proceedCheckoutBtn.innerHTML = originalBtnHtml;
+                }
             });
         }
 
