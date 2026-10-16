@@ -334,6 +334,16 @@ class CheckoutController extends Controller
      */
     public function webhook(Request $request, TeyaService $teyaService): JsonResponse
     {
+        // Respond to browser and monitoring GET requests with health status
+        if ($request->isMethod('get')) {
+            return response()->json([
+                'status' => 'active',
+                'service' => 'Teya Webhook Listener',
+                'description' => 'Siya\'s Kitchen payment notification listener. Ready to receive POST events from Teya.',
+                'timestamp' => now()->toIso8601String(),
+            ]);
+        }
+
         $rawPayload = $request->getContent();
         $signature = $request->header('x-teya-signature') ?: $request->header('X-Teya-Signature');
 

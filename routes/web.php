@@ -39,7 +39,7 @@ Route::get('/order', function () {
 Route::post('/checkout/teya', [CheckoutController::class, 'initiate'])->name('checkout.initiate');
 Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])->name('checkout.success');
 Route::get('/checkout/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
-Route::post('/webhooks/teya', [CheckoutController::class, 'webhook'])->name('webhooks.teya');
+Route::match(['get', 'post'], '/webhooks/teya', [CheckoutController::class, 'webhook'])->name('webhooks.teya');
 
 /*
 |--------------------------------------------------------------------------
