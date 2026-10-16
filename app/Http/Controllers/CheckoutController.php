@@ -9,8 +9,10 @@ use App\Services\TeyaService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 
@@ -44,6 +46,16 @@ class CheckoutController extends Controller
                 'success' => false,
                 'message' => 'Please provide a valid table number for Dine-In ordering.',
             ], 422);
+        }
+
+        // Auto-heal: Ensure orders and order_items tables exist on live database
+        if (!Schema::hasTable('orders') || !Schema::hasTable('order_items')) {
+            try {
+                Artisan::call('migrate', ['--force' => true]);
+                Log::info('Auto-migrated database: orders and order_items tables created.');
+            } catch (\Throwable $e) {
+                Log::error('Auto-migration failed: ' . $e->getMessage());
+            }
         }
 
         try {

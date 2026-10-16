@@ -31,12 +31,12 @@ jobs:
           printf '%s' "${{ secrets.IONOS_SSH_KEY_B64 }}" | base64 -d > ~/.ssh/ionos_deploy_key
           chmod 600 ~/.ssh/ionos_deploy_key
 
-          # Execute the production deployment script
+          # Execute the production deployment script and run database migrations
           ssh -i ~/.ssh/ionos_deploy_key \
               -p "$SSH_PORT" \
               -o IdentitiesOnly=yes \
               -o StrictHostKeyChecking=yes \
-              "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh"
+              "$SSH_USER@$SSH_HOST" "bash /kunden/homepages/30/d932199769/htdocs/deploy-siyaskitchen.sh && for dir in /kunden/homepages/30/d932199769/htdocs/* /kunden/homepages/30/d932199769/htdocs; do if [ -f \"\$dir/artisan\" ]; then echo \"Running migrations in \$dir...\"; cd \"\$dir\" && php artisan migrate --force; fi; done"
 
           # Clean up temporary private key
           rm -f ~/.ssh/ionos_deploy_key

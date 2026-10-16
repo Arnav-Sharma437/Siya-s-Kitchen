@@ -41,6 +41,23 @@ Route::get('/checkout/success/{order}', [CheckoutController::class, 'success'])-
 Route::get('/checkout/cancel/{order}', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
 Route::match(['get', 'post'], '/webhooks/teya', [CheckoutController::class, 'webhook'])->name('webhooks.teya');
 
+// Safe remote migration trigger (executes pending migrations)
+Route::get('/system/migrate', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database migrations executed successfully.',
+            'output' => trim(\Illuminate\Support\Facades\Artisan::output()),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin Architecture Foundation Routes
