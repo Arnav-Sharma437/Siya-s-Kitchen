@@ -15,6 +15,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->validateCsrfTokens(except: [
             'webhooks/teya',
             'webhooks/teya/*',
+            'system/setup-teya-env',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

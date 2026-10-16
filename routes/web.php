@@ -77,6 +77,56 @@ Route::get('/system/cache-clear', function () {
     }
 });
 
+// Temporary secure endpoint to configure Teya Sandbox credentials on live server without exposing them in Git
+Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $request) {
+    if ($request->input('token') !== 'sk_teya_setup_9a7d3f1c8b2e4a6d') {
+        abort(403);
+    }
+
+    $storeId = $request->input('store_id');
+    $clientId = $request->input('client_id');
+    $clientSecret = $request->input('client_secret');
+
+    if (empty($clientId) || empty($clientSecret)) {
+        return response()->json(['error' => 'Missing credentials'], 400);
+    }
+
+    $envPath = base_path('.env');
+    if (!file_exists($envPath)) {
+        return response()->json(['error' => '.env file not found'], 500);
+    }
+
+    $envContent = file_get_contents($envPath);
+
+    $keys = [
+        'PAYMENT_DRIVER' => 'teya',
+        'TEYA_ENV' => 'sandbox',
+        'TEYA_STORE_ID' => $storeId,
+        'TEYA_CLIENT_ID' => $clientId,
+        'TEYA_CLIENT_SECRET' => $clientSecret,
+    ];
+
+    foreach ($keys as $k => $v) {
+        if (empty($v)) continue;
+        if (preg_match('/^' . preg_quote($k, '/') . '=/m', $envContent)) {
+            $envContent = preg_replace('/^' . preg_quote($k, '/') . '=.*$/m', $k . '=' . $v, $envContent);
+        } else {
+            $envContent .= "\n" . $k . '=' . $v;
+        }
+    }
+
+    file_put_contents($envPath, $envContent);
+
+    // Clear caches so new config is picked up immediately
+    \Illuminate\Support\Facades\Artisan::call('config:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+
+    return response()->json([
+        'status' => 'success',
+        'message' => 'Teya credentials configured successfully on live server .env',
+    ]);
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin Architecture Foundation Routes
