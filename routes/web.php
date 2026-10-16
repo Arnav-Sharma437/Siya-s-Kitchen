@@ -58,6 +58,25 @@ Route::get('/system/migrate', function () {
     }
 });
 
+// Safe remote cache refresh (reloads .env changes)
+Route::get('/system/cache-clear', function () {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Configuration and application caches cleared successfully. New .env values are now active.',
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 /*
 |--------------------------------------------------------------------------
 | Admin Architecture Foundation Routes
