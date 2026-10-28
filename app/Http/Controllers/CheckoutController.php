@@ -238,11 +238,25 @@ class CheckoutController extends Controller
                 'post_success_payment' => 'REDIRECT',
             ];
 
+            // Format phone number to international E.164 (+44...) for Teya API
+            $formattedPhone = null;
+            if (!empty($order->customer_phone)) {
+                $cleaned = preg_replace('/[^\d+]/', '', $order->customer_phone);
+                if (str_starts_with($cleaned, '0')) {
+                    $cleaned = '+44' . substr($cleaned, 1);
+                } elseif (!str_starts_with($cleaned, '+')) {
+                    $cleaned = '+44' . $cleaned;
+                }
+                if (preg_match('/^\+[1-9]\d{6,14}$/', $cleaned)) {
+                    $formattedPhone = $cleaned;
+                }
+            }
+
             // Add customer details if provided
             $customerData = array_filter([
                 'name' => $order->customer_name ?: null,
                 'email' => $order->customer_email ?: null,
-                'phone_number' => $order->customer_phone ?: null,
+                'phone_number' => $formattedPhone,
             ]);
             if (!empty($customerData)) {
                 $sessionPayload['customer'] = $customerData;
