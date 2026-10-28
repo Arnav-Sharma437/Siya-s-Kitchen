@@ -208,8 +208,8 @@ class CheckoutController extends Controller
                     $successUrl = preg_replace('#://(localhost|127\.0\.0\.1|\[::1\])#i', '://localtest.me', $successUrl);
                     $cancelUrl = preg_replace('#://(localhost|127\.0\.0\.1|\[::1\])#i', '://localtest.me', $cancelUrl);
                     $failureUrl = preg_replace('#://(localhost|127\.0\.0\.1|\[::1\])#i', '://localtest.me', $failureUrl);
-                } else {
-                    // On live/production domain, ensure redirect URLs use HTTPS as required by Teya
+                } elseif (request()->isSecure()) {
+                    // If accessed over HTTPS, ensure redirect URLs use HTTPS
                     $successUrl = preg_replace('#^http://#i', 'https://', $successUrl);
                     $cancelUrl = preg_replace('#^http://#i', 'https://', $cancelUrl);
                     $failureUrl = preg_replace('#^http://#i', 'https://', $failureUrl);
@@ -365,6 +365,7 @@ class CheckoutController extends Controller
         ]);
 
         $publicKey = config('services.teya.webhook_public_key');
+        $isProduction = !$teyaService->isSandbox();
 
         // Verify cryptographic signature if public key is configured
         if (!empty($publicKey)) {
@@ -409,6 +410,29 @@ class CheckoutController extends Controller
                 if ($order->status === 'paid') {
                     // Idempotent: already marked as paid
                     return response()->json(['status' => 'already_paid'], 200);
+                }
+
+                // In production, if cryptographic public key signature wasn't verified,
+                // double-check payment status directly with Teya's official API before trusting
+                if ($isProduction && empty($publicKey)) {
+                    if (empty($sessionId)) {
+                        Log::error('Teya webhook rejected: Cannot verify payment without public key or session_id');
+                        return response()->json(['error' => 'Unverified webhook payment rejected'], 403);
+                    }
+                    try {
+                        $sessionInfo = $teyaService->getCheckoutSession($sessionId);
+                        $apiPaymentStatus = strtoupper($sessionInfo['payment_status'] ?? '');
+                        if ($apiPaymentStatus !== 'SUCCESS') {
+                            Log::warning('Teya webhook rejected: API session status is not SUCCESS', [
+                                'api_status' => $apiPaymentStatus,
+                                'session_id' => $sessionId,
+                            ]);
+                            return response()->json(['error' => 'Payment status unconfirmed by Teya API'], 400);
+                        }
+                    } catch (Exception $e) {
+                        Log::error('Teya webhook verification against API failed: ' . $e->getMessage());
+                        return response()->json(['error' => 'Unable to verify payment with Teya API'], 500);
+                    }
                 }
 
                 $order->markAsPaid($transactionId, $authCode);

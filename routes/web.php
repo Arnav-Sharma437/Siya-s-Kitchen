@@ -77,7 +77,21 @@ Route::get('/system/cache-clear', function () {
     }
 });
 
-// Temporary secure endpoint to configure Teya Sandbox credentials on live server without exposing them in Git
+// Safe remote status endpoint to inspect Teya environment without exposing secrets
+Route::get('/system/teya-status', function () {
+    $teya = app(\App\Services\TeyaService::class);
+    return response()->json([
+        'status' => 'success',
+        'payment_driver' => config('services.teya.driver', env('PAYMENT_DRIVER')),
+        'teya_env' => config('services.teya.env'),
+        'is_sandbox' => $teya->isSandbox(),
+        'store_id_configured' => !empty(config('services.teya.store_id')),
+        'client_id_configured' => !empty(config('services.teya.client_id')),
+        'client_secret_configured' => !empty(config('services.teya.client_secret')),
+    ]);
+});
+
+// Secure endpoint to configure Teya credentials on live server without exposing them in Git
 Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $request) {
     if ($request->input('token') !== 'sk_teya_setup_9a7d3f1c8b2e4a6d') {
         abort(403);
@@ -86,6 +100,8 @@ Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $reques
     $storeId = $request->input('store_id');
     $clientId = $request->input('client_id');
     $clientSecret = $request->input('client_secret');
+    $teyaEnv = $request->input('teya_env', 'production');
+    $webhookPublicKey = $request->input('teya_webhook_public_key');
 
     if (empty($clientId) || empty($clientSecret)) {
         return response()->json(['error' => 'Missing credentials'], 400);
@@ -100,14 +116,15 @@ Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $reques
 
     $keys = [
         'PAYMENT_DRIVER' => 'teya',
-        'TEYA_ENV' => 'sandbox',
+        'TEYA_ENV' => $teyaEnv,
         'TEYA_STORE_ID' => $storeId,
         'TEYA_CLIENT_ID' => $clientId,
         'TEYA_CLIENT_SECRET' => $clientSecret,
+        'TEYA_WEBHOOK_PUBLIC_KEY' => $webhookPublicKey,
     ];
 
     foreach ($keys as $k => $v) {
-        if (empty($v)) continue;
+        if ($v === null || $v === '') continue;
         if (preg_match('/^' . preg_quote($k, '/') . '=/m', $envContent)) {
             $envContent = preg_replace('/^' . preg_quote($k, '/') . '=.*$/m', $k . '=' . $v, $envContent);
         } else {
@@ -124,6 +141,7 @@ Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $reques
     return response()->json([
         'status' => 'success',
         'message' => 'Teya credentials configured successfully on live server .env',
+        'teya_env' => $teyaEnv,
     ]);
 });
 
