@@ -1,7 +1,11 @@
 <?php
 
+use App\Http\Controllers\Admin\AuthController as AdminAuthController;
 use App\Http\Controllers\Admin\CategoryController as AdminCategoryController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\MenuItemController as AdminMenuItemController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MenuController;
@@ -147,16 +151,38 @@ Route::post('/system/setup-teya-env', function (\Illuminate\Http\Request $reques
 
 /*
 |--------------------------------------------------------------------------
-| Admin Architecture Foundation Routes
+| Admin Management & Ecommerce Operations Routes
 |--------------------------------------------------------------------------
-| Structured for future authentication / permissions middleware binding.
 */
 Route::prefix('admin')->name('admin.')->group(function () {
-    Route::redirect('/', '/admin/menu-items');
+    // Admin Guest / Authentication Routes
+    Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AdminAuthController::class, 'login'])->name('login.submit');
+    Route::post('/logout', [AdminAuthController::class, 'logout'])->name('logout');
 
-    // Menu Categories CRUD Architecture
-    Route::resource('categories', AdminCategoryController::class);
+    // Protected Admin Routes
+    Route::middleware('admin.auth')->group(function () {
+        Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', [AdminDashboardController::class, 'index']);
 
-    // Menu Items CRUD Architecture
-    Route::resource('menu-items', AdminMenuItemController::class);
+        // Orders & Kitchen Display Management
+        Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
+        Route::get('/orders/{order}/receipt', [AdminOrderController::class, 'printReceipt'])->name('orders.receipt');
+        Route::get('/api/orders/live', [AdminOrderController::class, 'liveFeed'])->name('orders.live-feed');
+
+        // Menu Items CRUD & Quick Toggles
+        Route::patch('/menu-items/{menu_item}/toggle-availability', [AdminMenuItemController::class, 'toggleAvailability'])->name('menu-items.toggle-availability');
+        Route::patch('/menu-items/{menu_item}/toggle-popular', [AdminMenuItemController::class, 'togglePopular'])->name('menu-items.toggle-popular');
+        Route::resource('menu-items', AdminMenuItemController::class);
+
+        // Menu Categories CRUD & Quick Toggles
+        Route::patch('/categories/{category}/toggle-active', [AdminCategoryController::class, 'toggleActive'])->name('categories.toggle-active');
+        Route::resource('categories', AdminCategoryController::class);
+
+        // System Settings & Cache Control
+        Route::get('/settings', [AdminSettingsController::class, 'index'])->name('settings');
+        Route::post('/settings/cache-clear', [AdminSettingsController::class, 'clearCache'])->name('settings.cache-clear');
+    });
 });

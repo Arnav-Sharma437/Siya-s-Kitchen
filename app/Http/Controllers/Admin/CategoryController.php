@@ -88,4 +88,26 @@ class CategoryController extends Controller
 
         return redirect()->route('admin.categories.index')->with('success', 'Category deleted successfully');
     }
+
+    /**
+     * Quickly toggle active status of category.
+     */
+    public function toggleActive(Request $request, MenuCategory $category): RedirectResponse|JsonResponse
+    {
+        $category->update([
+            'is_active' => !$category->is_active,
+        ]);
+
+        $statusText = $category->is_active ? 'Active' : 'Inactive';
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'is_active' => $category->is_active,
+                'message' => "Category '{$category->name}' is now {$statusText}.",
+            ]);
+        }
+
+        return back()->with('success', "Category '{$category->name}' is now {$statusText}.");
+    }
 }

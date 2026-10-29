@@ -156,4 +156,48 @@ class MenuItemController extends Controller
 
         return redirect()->route('admin.menu-items.index')->with('success', 'Menu item deleted successfully');
     }
+
+    /**
+     * Quickly toggle availability status (In Stock / Out of Stock).
+     */
+    public function toggleAvailability(Request $request, MenuItem $menuItem): RedirectResponse|JsonResponse
+    {
+        $menuItem->update([
+            'is_available' => !$menuItem->is_available,
+        ]);
+
+        $statusText = $menuItem->is_available ? 'Available (In Stock)' : 'Out of Stock';
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'is_available' => $menuItem->is_available,
+                'message' => "Item '{$menuItem->name}' is now {$statusText}.",
+            ]);
+        }
+
+        return back()->with('success', "Item '{$menuItem->name}' is now {$statusText}.");
+    }
+
+    /**
+     * Quickly toggle popular badge status.
+     */
+    public function togglePopular(Request $request, MenuItem $menuItem): RedirectResponse|JsonResponse
+    {
+        $menuItem->update([
+            'is_popular' => !$menuItem->is_popular,
+        ]);
+
+        $statusText = $menuItem->is_popular ? 'marked as Popular' : 'removed from Popular';
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'is_popular' => $menuItem->is_popular,
+                'message' => "Item '{$menuItem->name}' {$statusText}.",
+            ]);
+        }
+
+        return back()->with('success', "Item '{$menuItem->name}' {$statusText}.");
+    }
 }
