@@ -414,6 +414,23 @@
             .admin-main {
                 margin-left: 0;
             }
+            .admin-topbar {
+                padding: 0.75rem 1rem;
+            }
+            .topbar-title {
+                font-size: 1.05rem;
+            }
+            .topbar-right {
+                gap: 0.5rem;
+            }
+            .sound-toggle-btn {
+                padding: 0.35rem 0.6rem;
+                font-size: 0.75rem;
+            }
+            .live-tag {
+                padding: 0.25rem 0.5rem;
+                font-size: 0.7rem;
+            }
         }
     </style>
     @stack('styles')
