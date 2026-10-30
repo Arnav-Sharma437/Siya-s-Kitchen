@@ -147,6 +147,23 @@ Route::get('/system/orders-diag', function () {
     ]);
 });
 
+// Safe live lookup of Teya session directly from Teya API
+Route::get('/system/teya-session-lookup/{sessionId}', function (string $sessionId) {
+    try {
+        $teya = app(\App\Services\TeyaService::class);
+        $session = $teya->getCheckoutSession($sessionId);
+        return response()->json([
+            'status' => 'success',
+            'session' => $session,
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Safe remote status endpoint to inspect Teya environment without exposing secrets
 Route::get('/system/teya-status', function () {
     $teya = app(\App\Services\TeyaService::class);
