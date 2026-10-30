@@ -35,6 +35,11 @@ Route::get('/order', function () {
     return redirect()->route('menu');
 })->name('order.index');
 
+// Customer Order History & Tracking (No login required - lookup by phone number or reference)
+Route::get('/my-orders', [\App\Http\Controllers\OrderHistoryController::class, 'index'])->name('orders.track');
+Route::post('/my-orders/lookup', [\App\Http\Controllers\OrderHistoryController::class, 'lookup'])->name('orders.track.lookup');
+Route::get('/my-orders/clear', [\App\Http\Controllers\OrderHistoryController::class, 'clear'])->name('orders.track.clear');
+
 /*
 |--------------------------------------------------------------------------
 | Teya Hosted Checkout & Payment Routes

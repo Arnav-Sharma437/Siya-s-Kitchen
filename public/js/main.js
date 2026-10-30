@@ -547,6 +547,16 @@
             });
         }
 
+        const phoneInput = document.getElementById('cartCustomerPhone');
+        if (phoneInput) {
+            const savedPhone = localStorage.getItem('siyas_customer_phone');
+            if (savedPhone) phoneInput.value = savedPhone;
+            phoneInput.addEventListener('input', function () {
+                const val = this.value.trim();
+                if (val) localStorage.setItem('siyas_customer_phone', val);
+            });
+        }
+
         // --- 5. Cart Item Stepper Delegation ---
         const cartItemsList = document.getElementById('cartItemsList');
         if (cartItemsList) {
@@ -594,9 +604,16 @@
                 `;
 
                 try {
+                    const phoneInput = document.getElementById('cartCustomerPhone');
+                    const customerPhone = phoneInput ? phoneInput.value.trim() : null;
+                    if (customerPhone) {
+                        localStorage.setItem('siyas_customer_phone', customerPhone);
+                    }
+
                     const payload = {
                         order_type: orderSettings.orderType,
                         table_number: orderSettings.tableNumber || null,
+                        customer_phone: customerPhone || null,
                         special_instructions: notesInput ? notesInput.value.trim() : null,
                         cart: cart.map(item => ({
                             menuItemId: item.menuItemId,

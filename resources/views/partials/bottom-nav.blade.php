@@ -21,13 +21,15 @@
             <span class="app-nav-label">Menu</span>
         </a>
 
-        <!-- 3. Search -->
-        <a href="{{ route('menu') }}#search" class="app-bottom-nav-item" id="appBottomSearchTrigger">
+        <!-- 3. Orders -->
+        <a href="{{ route('orders.track') }}" class="app-bottom-nav-item {{ request()->routeIs('orders.track*') ? 'active' : '' }}">
             <svg class="app-nav-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="11" cy="11" r="8"/>
-                <path d="m21 21-4.3-4.3"/>
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
             </svg>
-            <span class="app-nav-label">Search</span>
+            <span class="app-nav-label">Orders</span>
         </a>
 
         <!-- 4. Basket / Cart -->

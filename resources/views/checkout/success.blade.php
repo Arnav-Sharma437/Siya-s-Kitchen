@@ -101,11 +101,14 @@
             </div>
 
             <!-- Actions -->
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+            <div style="display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;">
+                <a href="{{ route('orders.track') }}" class="btn btn-secondary" style="padding: 12px 24px; display: inline-flex; align-items: center; gap: 0.4rem;">
+                    <span>📋</span> View My Orders & History
+                </a>
                 <a href="{{ route('menu') }}" class="btn btn-primary" style="padding: 12px 28px;">
                     Order More Dishes
                 </a>
-                <a href="{{ route('home') }}" class="btn btn-secondary" style="padding: 12px 28px;">
+                <a href="{{ route('home') }}" class="btn btn-secondary" style="padding: 12px 24px;">
                     Back to Home
                 </a>
             </div>
@@ -117,6 +120,13 @@
 
 @push('scripts')
 <script>
+    // Save customer phone for zero-login order history lookup
+    @if(!empty($order->customer_phone))
+        try {
+            localStorage.setItem('siyas_customer_phone', '{{ $order->customer_phone }}');
+        } catch (e) {}
+    @endif
+
     // Clear the cart from localStorage since order is complete
     try {
         localStorage.removeItem('siyas_kitchen_cart_v1');
