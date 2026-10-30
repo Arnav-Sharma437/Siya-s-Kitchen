@@ -113,6 +113,40 @@ Route::get('/system/clean-dummy-orders', function () {
     }
 });
 
+// Temporary forensic diagnostic to inspect order details and payment records
+Route::get('/system/orders-diag', function () {
+    $orders = \App\Models\Order::with('items')->latest()->take(10)->get();
+    return response()->json([
+        'orders' => $orders->map(function ($o) {
+            return [
+                'id' => $o->id,
+                'order_number' => $o->order_number,
+                'status' => $o->status,
+                'payment_status' => $o->payment_status,
+                'payment_driver' => $o->payment_driver,
+                'total_pence' => $o->total_pence,
+                'formatted_total' => $o->formatted_total,
+                'teya_transaction_id' => $o->teya_transaction_id,
+                'teya_session_id' => $o->teya_session_id,
+                'teya_auth_code' => $o->teya_auth_code,
+                'paid_at' => $o->paid_at ? $o->paid_at->toIso8601String() : null,
+                'created_at' => $o->created_at->toIso8601String(),
+                'customer_name' => $o->customer_name,
+                'customer_phone' => $o->customer_phone,
+                'order_type' => $o->order_type,
+                'table_number' => $o->table_number,
+                'items' => $o->items->map(function ($it) {
+                    return [
+                        'item_name' => $it->item_name,
+                        'qty' => $it->quantity,
+                        'line_total' => $it->line_total_pence,
+                    ];
+                }),
+            ];
+        }),
+    ]);
+});
+
 // Safe remote status endpoint to inspect Teya environment without exposing secrets
 Route::get('/system/teya-status', function () {
     $teya = app(\App\Services\TeyaService::class);
