@@ -404,6 +404,100 @@
         .badge-completed { background: #f1f5f9; color: #475569; }
         .badge-cancelled, .badge-failed { background: #fee2e2; color: #b91c1c; }
 
+        /* Bulletproof Admin Pagination */
+        .admin-pagination-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 1.25rem 0 0.5rem;
+            margin-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .admin-pagination-info {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+        }
+
+        .admin-pagination-info .fw-bold {
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .admin-pagination-list {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        .admin-page-item {
+            margin: 0;
+            list-style: none;
+        }
+
+        .admin-page-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 36px;
+            height: 36px;
+            padding: 0 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            background: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-sm);
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        .admin-page-item:not(.disabled):not(.active) .admin-page-link:hover {
+            background: #f1f5f9;
+            border-color: #cbd5e1;
+            color: var(--primary);
+        }
+
+        .admin-page-item.active .admin-page-link {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: #ffffff;
+            box-shadow: 0 2px 4px rgba(196, 77, 45, 0.25);
+        }
+
+        .admin-page-item.disabled .admin-page-link {
+            background: #f8fafc;
+            border-color: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+            opacity: 0.65;
+        }
+
+        /* Fallback for native Laravel Tailwind pagination elements if ever rendered */
+        nav[role="navigation"] svg {
+            width: 16px !important;
+            height: 16px !important;
+            max-width: 16px !important;
+            max-height: 16px !important;
+            display: inline-block !important;
+            vertical-align: middle !important;
+        }
+
+        nav[role="navigation"] .flex {
+            display: flex !important;
+            align-items: center !important;
+        }
+
+        nav[role="navigation"] .justify-between {
+            justify-content: space-between !important;
+        }
+
         @media (max-width: 900px) {
             .admin-sidebar {
                 transform: translateX(-100%);
@@ -601,7 +695,6 @@
                 btn.classList.add('active');
                 icon.innerText = '🔔';
                 text.innerText = 'Order Sound: ON';
-                playOrderBell();
             } else {
                 btn.classList.remove('active');
                 icon.innerText = '🔕';

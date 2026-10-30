@@ -92,6 +92,63 @@ class OrderController extends Controller
     }
 
     /**
+     * Delete an individual order (dummy or test order).
+     */
+    public function destroy(Order $order): RedirectResponse|JsonResponse
+    {
+        $orderNumber = $order->order_number;
+        $order->delete();
+
+        if (request()->wantsJson() || request()->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Order #{$orderNumber} deleted successfully.",
+            ]);
+        }
+
+        return redirect()->route('admin.orders.index')->with('success', "Order #{$orderNumber} was deleted successfully.");
+    }
+
+    /**
+     * Delete all dummy or unpaid test orders while strictly preserving all real paid orders.
+     */
+    public function cleanDummy(Request $request): RedirectResponse|JsonResponse
+    {
+        // Real paid orders to ALWAYS KEEP:
+        // - status in ['paid', 'preparing', 'ready', 'completed']
+        // - OR payment_status == 'paid'
+        // - OR paid_at is not null
+        // - OR teya_transaction_id is not null
+        //
+        // Dummy/unpaid orders to DELETE:
+        // - status in ['pending', 'failed', 'cancelled'] AND payment_status != 'paid' AND paid_at is null AND teya_transaction_id is null
+        $dummyOrders = Order::where(function ($query) {
+            $query->whereIn('status', ['pending', 'failed', 'cancelled'])
+                  ->orWhere('payment_status', '!=', 'paid')
+                  ->orWhereNull('paid_at');
+        })
+        ->whereNotIn('status', ['paid', 'preparing', 'ready', 'completed'])
+        ->whereNull('teya_transaction_id')
+        ->where('payment_status', '!=', 'paid')
+        ->get();
+
+        $count = $dummyOrders->count();
+        foreach ($dummyOrders as $order) {
+            $order->delete();
+        }
+
+        if ($request->wantsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'deleted_count' => $count,
+                'message' => "Cleaned up {$count} dummy/unpaid orders. All real paid orders have been preserved.",
+            ]);
+        }
+
+        return redirect()->route('admin.orders.index')->with('success', "Cleaned up {$count} dummy/unpaid order(s). All real paid orders have been preserved.");
+    }
+
+    /**
      * Thermal printer / kitchen receipt docket view.
      */
     public function printReceipt(Order $order): View
@@ -111,8 +168,11 @@ class OrderController extends Controller
             ->take(30)
             ->get();
 
+        $maxId = Order::whereIn('status', ['paid', 'preparing', 'ready'])->max('id') ?? 0;
+
         return response()->json([
             'count' => $activeOrders->count(),
+            'max_id' => $maxId,
             'orders' => $activeOrders,
             'timestamp' => now()->toIso8601String(),
         ]);

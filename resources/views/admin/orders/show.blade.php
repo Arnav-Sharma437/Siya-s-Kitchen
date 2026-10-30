@@ -137,6 +137,14 @@
                     Update Order Status
                 </button>
             </form>
+
+            <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Permanently delete order #{{ $order->order_number }}? This cannot be undone.');" style="margin-top: 1rem; border-top: 1px solid var(--border-color); padding-top: 1rem;">
+                @csrf
+                @method('DELETE')
+                <button type="submit" class="btn btn-sm" style="width: 100%; background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3;" title="Delete this order">
+                    🗑️ Permanently Delete Order
+                </button>
+            </form>
         </div>
 
         <!-- Service & Customer Card -->

@@ -38,14 +38,22 @@
             </a>
         </div>
 
-        <!-- Live Refresh Controls -->
-        <div style="display: flex; align-items: center; gap: 0.75rem;">
+        <!-- Live Refresh & Maintenance Controls -->
+        <div style="display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;">
+            <form action="{{ route('admin.orders.clean-dummy') }}" method="POST" onsubmit="return confirm('Clean up all unpaid dummy/test orders? Real paid orders will be preserved.');" style="margin: 0;">
+                @csrf
+                <button type="submit" class="btn btn-sm" style="background: #fff1f2; color: #e11d48; border: 1px solid #fecdd3;" title="Remove test/dummy orders where payment was never received">
+                    🧹 Clean Dummy Orders
+                </button>
+            </form>
+
             <button type="button" class="btn btn-secondary btn-sm" id="autoRefreshBtn" onclick="toggleAutoRefresh()">
                 <span id="refreshIcon">🔄</span>
-                <span id="refreshText">Auto-Refresh: ON (15s)</span>
+                <span id="refreshText">Auto-Refresh: ON (10s)</span>
             </button>
+
             <a href="{{ request()->fullUrl() }}" class="btn btn-secondary btn-sm" title="Refresh Now">
-                Refresh Now
+                Refresh
             </a>
         </div>
     </div>
@@ -214,13 +222,20 @@
                         </form>
                     @endif
 
-                    <div style="display: flex; gap: 0.5rem;">
-                        <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-secondary btn-sm" style="flex: 1;">
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <a href="{{ route('admin.orders.show', $order) }}" class="btn btn-secondary btn-sm" style="flex: 1; text-align: center;">
                             Full Details
                         </a>
-                        <a href="{{ route('admin.orders.receipt', $order) }}" target="_blank" class="btn btn-secondary btn-sm" style="flex: 1;">
+                        <a href="{{ route('admin.orders.receipt', $order) }}" target="_blank" class="btn btn-secondary btn-sm" style="flex: 1; text-align: center;">
                             🖨️ Print Docket
                         </a>
+                        <form action="{{ route('admin.orders.destroy', $order) }}" method="POST" onsubmit="return confirm('Permanently delete order #{{ $order->order_number }}?');" style="margin: 0;">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm" style="background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; padding: 0.35rem 0.65rem;" title="Delete this order">
+                                🗑️
+                            </button>
+                        </form>
                     </div>
                 </div>
 
@@ -237,9 +252,58 @@
 @push('scripts')
 <script>
     let autoRefreshActive = true;
-    let refreshSeconds = 15;
+    let refreshSeconds = 10;
     let refreshTimer = null;
-    let lastOrderCount = {{ $counts['paid'] }};
+
+    // Track highest order ID known at page render time
+    // NEVER beep on page load! Beep ONLY when an order arrives with ID > currentMaxOrderId
+    let currentMaxOrderId = {{ $orders->max('id') ?? 0 }};
+    const storedMaxId = parseInt(sessionStorage.getItem('kitchen_latest_order_id') || '0', 10);
+    if (storedMaxId > currentMaxOrderId) {
+        currentMaxOrderId = storedMaxId;
+    } else {
+        sessionStorage.setItem('kitchen_latest_order_id', currentMaxOrderId);
+    }
+
+    function checkLiveOrders() {
+        fetch("{{ route('admin.orders.live-feed') }}")
+            .then(res => res.json())
+            .then(data => {
+                const incomingMaxId = parseInt(data.max_id || 0, 10);
+
+                // ONLY trigger sound when a STRICTLY NEW order ID arrives!
+                if (incomingMaxId > currentMaxOrderId) {
+                    currentMaxOrderId = incomingMaxId;
+                    sessionStorage.setItem('kitchen_latest_order_id', incomingMaxId);
+
+                    // 🔔 BEEP ONLY ON REAL NEW INCOMING ORDER!
+                    playOrderBell();
+
+                    // Show floating notification banner
+                    const newest = data.orders && data.orders[0] ? data.orders[0] : null;
+                    showNewOrderBanner(newest);
+
+                    // Refresh orders display after sound has initiated
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 1200);
+                }
+            })
+            .catch(err => console.log('Live feed polling error:', err));
+    }
+
+    function showNewOrderBanner(order) {
+        let banner = document.getElementById('newOrderAlertBanner');
+        if (!banner) {
+            banner = document.createElement('div');
+            banner.id = 'newOrderAlertBanner';
+            banner.style.cssText = 'position: fixed; top: 1.5rem; right: 1.5rem; z-index: 9999; background: #16a34a; color: #ffffff; padding: 1rem 1.5rem; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); font-weight: 700; display: flex; align-items: center; gap: 0.75rem;';
+            document.body.appendChild(banner);
+        }
+        const ref = order ? order.order_number : 'New';
+        const type = order && order.order_type === 'dine_in' ? `Table #${order.table_number || '1'}` : 'Takeaway';
+        banner.innerHTML = `<span>🔔</span><div><div>NEW ORDER RECEIVED!</div><div style="font-size: 0.8rem; font-weight: 500; opacity: 0.9;">Ref: ${ref} &bull; ${type}</div></div>`;
+    }
 
     function startTimer() {
         if (refreshTimer) clearInterval(refreshTimer);
@@ -250,18 +314,8 @@
             if (text) text.innerText = `Auto-Refresh: ON (${refreshSeconds}s)`;
 
             if (refreshSeconds <= 0) {
-                // Poll live feed to check if new orders arrived
-                fetch("{{ route('admin.orders.live-feed') }}")
-                    .then(res => res.json())
-                    .then(data => {
-                        if (data.count > lastOrderCount) {
-                            playOrderBell();
-                        }
-                        window.location.reload();
-                    })
-                    .catch(() => {
-                        window.location.reload();
-                    });
+                refreshSeconds = 10;
+                checkLiveOrders();
             }
         }, 1000);
     }
@@ -274,8 +328,8 @@
         if (autoRefreshActive) {
             btn.classList.add('btn-primary');
             btn.classList.remove('btn-secondary');
-            refreshSeconds = 15;
-            text.innerText = `Auto-Refresh: ON (15s)`;
+            refreshSeconds = 10;
+            text.innerText = `Auto-Refresh: ON (10s)`;
             startTimer();
         } else {
             btn.classList.remove('btn-primary');
@@ -285,13 +339,7 @@
         }
     }
 
-    // Play chime if there are pending/new orders on page load
-    if ({{ $counts['paid'] }} > 0) {
-        setTimeout(() => {
-            playOrderBell();
-        }, 800);
-    }
-
+    // Start background live polling (completely silent until a new order arrives)
     startTimer();
 </script>
 @endpush

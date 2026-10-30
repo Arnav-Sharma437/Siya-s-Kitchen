@@ -81,6 +81,38 @@ Route::get('/system/cache-clear', function () {
     }
 });
 
+// Safe remote endpoint to clean up dummy/unpaid orders while preserving all real paid orders
+Route::get('/system/clean-dummy-orders', function () {
+    try {
+        $dummyOrders = \App\Models\Order::where(function ($query) {
+            $query->whereIn('status', ['pending', 'failed', 'cancelled'])
+                  ->orWhere('payment_status', '!=', 'paid')
+                  ->orWhereNull('paid_at');
+        })
+        ->whereNotIn('status', ['paid', 'preparing', 'ready', 'completed'])
+        ->whereNull('teya_transaction_id')
+        ->where('payment_status', '!=', 'paid')
+        ->get();
+
+        $count = $dummyOrders->count();
+        foreach ($dummyOrders as $order) {
+            $order->delete();
+        }
+
+        return response()->json([
+            'status' => 'success',
+            'message' => "Successfully cleaned up {$count} dummy/unpaid orders. All real paid orders were strictly preserved.",
+            'deleted_count' => $count,
+            'remaining_orders_count' => \App\Models\Order::count(),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Safe remote status endpoint to inspect Teya environment without exposing secrets
 Route::get('/system/teya-status', function () {
     $teya = app(\App\Services\TeyaService::class);
@@ -167,7 +199,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Orders & Kitchen Display Management
         Route::get('/orders', [AdminOrderController::class, 'index'])->name('orders.index');
+        Route::post('/orders/clean-dummy', [AdminOrderController::class, 'cleanDummy'])->name('orders.clean-dummy');
         Route::get('/orders/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+        Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
         Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.update-status');
         Route::get('/orders/{order}/receipt', [AdminOrderController::class, 'printReceipt'])->name('orders.receipt');
         Route::get('/api/orders/live', [AdminOrderController::class, 'liveFeed'])->name('orders.live-feed');
