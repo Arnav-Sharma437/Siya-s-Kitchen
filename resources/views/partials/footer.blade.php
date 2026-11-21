@@ -98,7 +98,12 @@
 
         <!-- Bottom Bar -->
         <div class="footer-bottom">
-            <p>&copy; {{ date('Y') }} {{ config('restaurant.name') }} {{ config('restaurant.tagline') }}. Dedicated with love to Siya.</p>
+            <div class="footer-bottom-copy">
+                <p>&copy; {{ date('Y') }} {{ config('restaurant.name') }} {{ config('restaurant.tagline') }}. Dedicated with love to Siya.</p>
+                <p style="font-size: 0.78rem; color: rgba(255, 255, 255, 0.45); margin-top: 0.35rem; letter-spacing: 0.02em;">
+                    Designed by <span style="color: rgba(255, 255, 255, 0.85); font-weight: 600;">We Do Effects</span>
+                </p>
+            </div>
             
             <div class="footer-bottom-links">
                 <a href="{{ route('about') }}#tribute">Siya's Story</a>
