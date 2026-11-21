@@ -159,14 +159,7 @@
             @if(isset($featuredDishes) && $featuredDishes->isNotEmpty())
                 @foreach($featuredDishes as $dish)
                     @php
-                        $dishImg = $dish->image ? asset($dish->image) : asset('images/dishes/butter-chicken.jpg');
-                        if (str_contains($dish->slug, 'paneer')) {
-                            $dishImg = asset('images/dishes/paneer-tikka.jpg');
-                        } elseif (str_contains($dish->slug, 'biryani')) {
-                            $dishImg = asset('images/dishes/chicken-biryani.jpg');
-                        } elseif (str_contains($dish->slug, 'dal') || str_contains($dish->slug, 'kadhi')) {
-                            $dishImg = asset('images/dishes/dal-tadka.jpg');
-                        }
+                        $dishImg = $dish->image_url;
                     @endphp
                     <div class="dish-card">
                         <div class="dish-card-img-wrapper">
@@ -183,10 +176,10 @@
                     </div>
                 @endforeach
             @else
-                <!-- Butter Chicken -->
+                <!-- Paneer Butter Masala -->
                 <div class="dish-card">
                     <div class="dish-card-img-wrapper">
-                        <img src="{{ asset('images/dishes/butter-chicken.jpg') }}" alt="Paneer Butter Masala" class="dish-card-img" loading="lazy">
+                        <img src="{{ asset('images/dishes/paneer-butter-masala.jpg') }}" alt="Paneer Butter Masala" class="dish-card-img" loading="lazy">
                         <span class="dish-card-price">£10.49</span>
                     </div>
                     <div class="dish-card-body">
@@ -201,7 +194,7 @@
                 <!-- Biryani -->
                 <div class="dish-card">
                     <div class="dish-card-img-wrapper">
-                        <img src="{{ asset('images/dishes/chicken-biryani.jpg') }}" alt="Hyderabadi Biryani" class="dish-card-img" loading="lazy">
+                        <img src="{{ asset('images/dishes/veg-biryani.jpg') }}" alt="Hyderabadi Biryani" class="dish-card-img" loading="lazy">
                         <span class="dish-card-price">£9.00</span>
                     </div>
                     <div class="dish-card-body">

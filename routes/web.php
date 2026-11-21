@@ -86,6 +86,31 @@ Route::get('/system/cache-clear', function () {
     }
 });
 
+// Safe remote sync of all dish images matching dish names
+Route::get('/system/sync-menu-images', function () {
+    try {
+        $items = \App\Models\MenuItem::with('category')->get();
+        $updated = 0;
+        foreach ($items as $item) {
+            $imagePath = \App\Models\MenuItem::resolveDishImage($item->name, $item->category?->slug ?? '', $item->slug ?? '');
+            $item->update(['image' => $imagePath]);
+            $updated++;
+        }
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        return response()->json([
+            'status' => 'success',
+            'message' => "Successfully synchronized $updated menu items with accurate authentic dish images.",
+            'sample' => $items->take(5)->map(fn ($i) => ['name' => $i->name, 'image' => $i->image]),
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage(),
+        ], 500);
+    }
+});
+
 // Safe remote endpoint to clean up dummy/unpaid orders while preserving all real paid orders
 Route::get('/system/clean-dummy-orders', function () {
     try {

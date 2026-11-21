@@ -1577,6 +1577,9 @@ class MenuSeeder extends Seeder
                 $itemData['slug'] = Str::slug($itemData['name']);
                 $itemData['sort_order'] = $index + 1;
                 $itemData['is_available'] = true;
+                if (empty($itemData['image'])) {
+                    $itemData['image'] = MenuItem::resolveDishImage($itemData['name'], $category->slug, $itemData['slug']);
+                }
 
                 $menuItem = MenuItem::updateOrCreate(
                     ['slug' => $itemData['slug']],
