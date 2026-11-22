@@ -143,7 +143,10 @@ class MenuItem extends Model
                     if (str_starts_with($this->image, 'http://') || str_starts_with($this->image, 'https://')) {
                         return $this->image;
                     }
-                    return asset($this->image);
+                    // Prevent fallback dining room photo or missing file from masking the authentic food photo
+                    if (!str_contains($this->image, 'about-interior') && file_exists(public_path($this->image))) {
+                        return asset($this->image);
+                    }
                 }
 
                 $resolved = self::resolveDishImage($this->name, $this->category?->slug ?? '', $this->slug ?? '');
@@ -164,7 +167,13 @@ class MenuItem extends Model
         if (str_contains($n, 'dahi puri') || str_contains($n, 'dahi poori')) {
             return 'images/dishes/dahi-puri.jpg';
         }
-        if (str_contains($n, 'sev puri') || str_contains($n, 'chutney puri')) {
+        if (str_contains($n, 'ragda')) {
+            return 'images/dishes/ragda-pani-puri.jpg';
+        }
+        if (str_contains($n, 'chutney puri')) {
+            return 'images/dishes/chutney-puri.jpg';
+        }
+        if (str_contains($n, 'sev puri')) {
             return 'images/dishes/sev-puri.jpg';
         }
         if (str_contains($n, 'pani puri') || str_contains($n, 'p.p mini') || str_contains($n, 'family pack')) {
@@ -197,12 +206,27 @@ class MenuItem extends Model
         }
 
         // 4. Sandwich items
+        if (str_contains($n, 'paneer tikka sandwich')) {
+            return 'images/dishes/paneer-tikka-sandwich.jpg';
+        }
+        if (str_contains($n, 'bombay')) {
+            return 'images/dishes/bombay-sandwich.jpg';
+        }
+        if (str_contains($n, 'samosa sandwich')) {
+            return 'images/dishes/samosa-sandwich.jpg';
+        }
+        if (str_contains($n, 'veg cheese') || str_contains($n, 'vegetable cheese')) {
+            return 'images/dishes/veg-cheese-sandwich.jpg';
+        }
         if (str_contains($n, 'sandwich') || str_contains($n, 'toast')) {
             return 'images/dishes/cheese-toast-sandwich.jpg';
         }
 
         // 5. Chips, Fries & Bites
-        if (str_contains($n, 'chips') || str_contains($n, 'fries') || str_contains($n, 'bites')) {
+        if (str_contains($n, 'bites') || str_contains($n, 'chilli cheese bites')) {
+            return 'images/dishes/chilli-cheese-bites.jpg';
+        }
+        if (str_contains($n, 'chips') || str_contains($n, 'fries')) {
             return 'images/dishes/masala-chips.jpg';
         }
 
@@ -215,13 +239,16 @@ class MenuItem extends Model
         }
 
         // 7. Dhokla & Surti Special
+        if (str_contains($n, 'sev khamani')) {
+            return 'images/dishes/sev-khamani.jpg';
+        }
         if (str_contains($n, 'live dhokla') || str_contains($n, 'white dhokla') || str_contains($n, 'khatta dhokla')) {
             return 'images/dishes/live-dhokla.jpg';
         }
         if (str_contains($n, 'locho')) {
             return 'images/dishes/surti-locho.jpg';
         }
-        if (str_contains($n, 'khaman') || str_contains($n, 'dhokla') || str_contains($n, 'sev khamani')) {
+        if (str_contains($n, 'khaman') || str_contains($n, 'dhokla')) {
             return 'images/dishes/khaman-dhokla.jpg';
         }
         if (str_contains($n, 'idli')) {

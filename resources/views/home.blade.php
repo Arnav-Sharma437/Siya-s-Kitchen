@@ -209,7 +209,7 @@
                 <!-- Paneer Tikka -->
                 <div class="dish-card">
                     <div class="dish-card-img-wrapper">
-                        <img src="{{ asset('images/dishes/paneer-tikka.jpg') }}" alt="Paneer Tikka Masala" class="dish-card-img" loading="lazy">
+                        <img src="{{ asset('images/dishes/paneer-tikka-masala.jpg') }}" alt="Paneer Tikka Masala" class="dish-card-img" loading="lazy">
                         <span class="dish-card-price">£10.49</span>
                     </div>
                     <div class="dish-card-body">
