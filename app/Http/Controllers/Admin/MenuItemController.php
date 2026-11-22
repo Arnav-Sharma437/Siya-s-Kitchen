@@ -10,6 +10,7 @@ use App\Models\MenuItem;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 class MenuItemController extends Controller
@@ -50,7 +51,15 @@ class MenuItemController extends Controller
         $data = $request->validated();
         $variations = $data['variations'] ?? [];
         $addons = $data['addons'] ?? [];
-        unset($data['variations'], $data['addons']);
+        unset($data['variations'], $data['addons'], $data['image_file']);
+
+        // Handle direct dish image file upload
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = Str::slug($data['name'] ?? 'dish') . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/dishes'), $filename);
+            $data['image'] = 'images/dishes/' . $filename;
+        }
 
         // Convert price to pence if provided as decimal/pounds
         if (isset($data['price']) && is_numeric($data['price'])) {
@@ -103,7 +112,15 @@ class MenuItemController extends Controller
         $data = $request->validated();
         $variations = $data['variations'] ?? null;
         $addons = $data['addons'] ?? null;
-        unset($data['variations'], $data['addons']);
+        unset($data['variations'], $data['addons'], $data['image_file']);
+
+        // Handle direct dish image file upload
+        if ($request->hasFile('image_file')) {
+            $file = $request->file('image_file');
+            $filename = Str::slug($data['name'] ?? $menuItem->name) . '-' . time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('images/dishes'), $filename);
+            $data['image'] = 'images/dishes/' . $filename;
+        }
 
         if (isset($data['price']) && is_numeric($data['price'])) {
             $data['price'] = (int) round((float) $data['price'] * 100);

@@ -30,9 +30,34 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.menu-items.update', $menuItem) }}" method="POST">
+    <form action="{{ route('admin.menu-items.update', $menuItem) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
+        <!-- Dish Image Upload & Current Preview -->
+        <div style="margin-bottom: 1.5rem; padding: 1.25rem; background: #fafaf9; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <label style="display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.6rem; color: #1e293b;">
+                Dish Photo / Menu Image
+            </label>
+            <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+                <!-- Current / Preview Thumbnail -->
+                <div style="position: relative; width: 120px; height: 90px; border-radius: 8px; overflow: hidden; border: 2px solid var(--border-color); background: #f1f5f9; flex-shrink: 0;">
+                    <img id="dish-preview-img" src="{{ $menuItem->image_url }}" alt="{{ $menuItem->name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+
+                <div style="flex: 1; min-width: 240px;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        Upload a new photo for this dish (PNG, JPG, WEBP - Max 5MB). Live website par yeh image turant update ho jayegi:
+                    </div>
+                    <input type="file" name="image_file" id="image-file-input" accept="image/*" onchange="previewSelectedImage(event)"
+                           style="display: block; width: 100%; font-size: 0.85rem; padding: 0.4rem 0;">
+                    
+                    <div style="margin-top: 0.4rem; font-size: 0.75rem; color: #64748b;">
+                        Current stored path: <code style="background: #e2e8f0; padding: 0.15rem 0.35rem; border-radius: 4px;">{{ $menuItem->image ?? 'Auto-resolved: ' . \App\Models\MenuItem::resolveDishImage($menuItem->name) }}</code>
+                    </div>
+                </div>
+            </div>
+        </div>
 
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
             <!-- Dish Name -->
@@ -126,5 +151,18 @@
         </div>
     </form>
 </div>
+
+<script>
+function previewSelectedImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            document.getElementById('dish-preview-img').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 
 @endsection

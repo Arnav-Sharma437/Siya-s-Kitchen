@@ -66,11 +66,18 @@
                 <tbody>
                     @foreach($items as $item)
                         <tr style="border-bottom: 1px solid var(--border-color); transition: background 0.15s;">
-                            <!-- Dish Name & Extras -->
+                            <!-- Dish Name & Photo & Extras -->
                             <td style="padding: 0.85rem 1rem;">
-                                <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{{ $item->name }}</div>
-                                <div style="font-size: 0.72rem; color: var(--text-muted);">
-                                    {{ $item->variations->count() }} variation(s) &bull; {{ $item->addons->count() }} addon(s)
+                                <div style="display: flex; align-items: center; gap: 0.85rem;">
+                                    <div style="width: 48px; height: 48px; border-radius: 8px; overflow: hidden; background: #f1f5f9; border: 1px solid var(--border-color); flex-shrink: 0;">
+                                        <img src="{{ $item->image_url }}" alt="{{ $item->name }}" style="width: 100%; height: 100%; object-fit: cover;" loading="lazy">
+                                    </div>
+                                    <div>
+                                        <div style="font-weight: 700; color: #0f172a; font-size: 0.95rem;">{{ $item->name }}</div>
+                                        <div style="font-size: 0.72rem; color: var(--text-muted);">
+                                            {{ $item->variations->count() }} variation(s) &bull; {{ $item->addons->count() }} addon(s)
+                                        </div>
+                                    </div>
                                 </div>
                             </td>
 

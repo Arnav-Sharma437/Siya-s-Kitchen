@@ -24,8 +24,31 @@
         </div>
     @endif
 
-    <form action="{{ route('admin.menu-items.store') }}" method="POST">
+    <form action="{{ route('admin.menu-items.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
+
+        <!-- Dish Image Upload & Preview -->
+        <div style="margin-bottom: 1.5rem; padding: 1.25rem; background: #fafaf9; border: 1px solid var(--border-color); border-radius: var(--radius-sm);">
+            <label style="display: block; font-size: 0.88rem; font-weight: 700; margin-bottom: 0.6rem; color: #1e293b;">
+                Dish Photo / Menu Image
+            </label>
+            <div style="display: flex; gap: 1.25rem; align-items: center; flex-wrap: wrap;">
+                <div style="position: relative; width: 120px; height: 90px; border-radius: 8px; overflow: hidden; border: 2px dashed var(--border-color); background: #f1f5f9; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                    <img id="dish-preview-img" src="{{ asset('images/about/about-interior.jpg') }}" alt="Preview" style="width: 100%; height: 100%; object-fit: cover; display: none;">
+                    <div id="dish-preview-placeholder" style="font-size: 0.72rem; color: #94a3b8; text-align: center; padding: 0.5rem;">
+                        No Image Selected
+                    </div>
+                </div>
+
+                <div style="flex: 1; min-width: 240px;">
+                    <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
+                        Upload a photo for this new dish (PNG, JPG, WEBP - Max 5MB). Agar upload nahi karoge to category & dish name ke hisaab se automatic photo set ho jayegi:
+                    </div>
+                    <input type="file" name="image_file" id="image-file-input" accept="image/*" onchange="previewSelectedImage(event)"
+                           style="display: block; width: 100%; font-size: 0.85rem; padding: 0.4rem 0;">
+                </div>
+            </div>
+        </div>
 
         <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.25rem; margin-bottom: 1.25rem;">
             <!-- Dish Name -->
@@ -120,5 +143,22 @@
         </div>
     </form>
 </div>
+
+<script>
+function previewSelectedImage(event) {
+    const file = event.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = document.getElementById('dish-preview-img');
+            const ph = document.getElementById('dish-preview-placeholder');
+            img.src = e.target.result;
+            img.style.display = 'block';
+            if (ph) ph.style.display = 'none';
+        };
+        reader.readAsDataURL(file);
+    }
+}
+</script>
 
 @endsection
