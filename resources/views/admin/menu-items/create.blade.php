@@ -42,7 +42,7 @@
 
                 <div style="flex: 1; min-width: 240px;">
                     <div style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">
-                        Upload a photo for this new dish (PNG, JPG, WEBP - Max 5MB). Agar upload nahi karoge to category & dish name ke hisaab se automatic photo set ho jayegi:
+                        Upload a photo for this new dish (PNG, JPG, WEBP - Max 10MB). Agar upload nahi karoge to category & dish name ke hisaab se automatic photo set ho jayegi:
                     </div>
                     <input type="file" name="image_file" id="image-file-input" accept="image/*" onchange="previewSelectedImage(event)"
                            style="display: block; width: 100%; font-size: 0.85rem; padding: 0.4rem 0;">

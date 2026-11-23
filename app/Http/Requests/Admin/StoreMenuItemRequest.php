@@ -29,7 +29,7 @@ class StoreMenuItemRequest extends FormRequest
             'short_description' => ['nullable', 'string', 'max:255'],
             'price' => ['required', 'numeric', 'min:0'],
             'image' => ['nullable', 'string', 'max:255'],
-            'image_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:5120'],
+            'image_file' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp,gif', 'max:10240'],
             'is_vegetarian' => ['nullable', 'boolean'],
             'is_vegan' => ['nullable', 'boolean'],
             'is_spicy' => ['nullable', 'boolean'],
