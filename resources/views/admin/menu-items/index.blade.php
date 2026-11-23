@@ -7,10 +7,11 @@
 
 <div class="card" style="padding: 1.25rem; margin-bottom: 1.5rem;">
     <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;">
-        <!-- Category Filter -->
-        <form action="{{ route('admin.menu-items.index') }}" method="GET" style="display: flex; gap: 0.75rem; align-items: center; flex-wrap: wrap;">
+        <!-- Category & Per-Page Controls Filter Form -->
+        <form action="{{ route('admin.menu-items.index') }}" method="GET" style="display: flex; gap: 0.85rem; align-items: center; flex-wrap: wrap;">
+            <!-- Category Dropdown -->
             <div>
-                <select name="category_id" onchange="this.form.submit()" style="padding: 0.55rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.88rem; background: #fff;">
+                <select name="category_id" onchange="this.form.submit()" style="padding: 0.55rem 0.85rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.88rem; background: #fff; font-weight: 500;">
                     <option value="">All Categories ({{ $categories->count() }})</option>
                     @foreach($categories as $category)
                         <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
@@ -20,8 +21,35 @@
                 </select>
             </div>
 
-            @if(request('category_id'))
-                <a href="{{ route('admin.menu-items.index') }}" class="btn btn-secondary btn-sm">Clear Filter</a>
+            <!-- Custom Per Page Input -->
+            <div style="display: flex; align-items: center; gap: 0.4rem; background: #fff; padding: 0.25rem 0.6rem; border: 1px solid var(--border-color); border-radius: var(--radius-sm); font-size: 0.85rem; color: #475569;">
+                <span style="font-size: 0.8rem; font-weight: 600;">Items per page:</span>
+                <input type="number" name="per_page" value="{{ request('per_page', $perPage ?? 20) }}" min="1" max="500" step="1"
+                       style="width: 65px; padding: 0.3rem 0.45rem; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 0.88rem; font-weight: 700; text-align: center; color: #0f172a;"
+                       title="Enter any number of items to show per page">
+                <button type="submit" class="btn btn-secondary btn-sm" style="padding: 0.3rem 0.65rem; font-size: 0.8rem;">
+                    Apply
+                </button>
+            </div>
+
+            <!-- Quick Preset Buttons -->
+            <div style="display: flex; align-items: center; gap: 0.3rem;">
+                @foreach([20, 50, 100] as $preset)
+                    @if(request('per_page', 20) != $preset)
+                        <a href="{{ route('admin.menu-items.index', array_merge(request()->except('page'), ['per_page' => $preset])) }}" 
+                           class="btn btn-secondary btn-sm" style="padding: 0.35rem 0.55rem; font-size: 0.78rem;" title="Show {{ $preset }} items">
+                            {{ $preset }}
+                        </a>
+                    @else
+                        <span class="btn btn-primary btn-sm" style="padding: 0.35rem 0.55rem; font-size: 0.78rem; pointer-events: none;">
+                            {{ $preset }}
+                        </span>
+                    @endif
+                @endforeach
+            </div>
+
+            @if(request('category_id') || (request('per_page') && request('per_page') != 20))
+                <a href="{{ route('admin.menu-items.index') }}" class="btn btn-secondary btn-sm" style="color: #ef4444;" title="Reset category & page size">Reset</a>
             @endif
         </form>
 
@@ -37,8 +65,13 @@
 <div class="card">
     <div class="card-header">
         <div>
-            <h2 class="card-title">All Menu Items ({{ $items->total() }})</h2>
-            <div style="font-size: 0.75rem; color: var(--text-muted);">Manage dishes, update prices, and control real-time kitchen availability</div>
+            <h2 class="card-title">
+                {{ request('category_id') && ($activeCat = $categories->firstWhere('id', request('category_id'))) ? $activeCat->name : 'All Menu Items' }} 
+                ({{ $items->total() }})
+            </h2>
+            <div style="font-size: 0.75rem; color: var(--text-muted);">
+                Showing {{ $items->firstItem() ?? 0 }}–{{ $items->lastItem() ?? 0 }} of {{ $items->total() }} items ({{ $items->perPage() }} per page) &bull; Kitchen availability & live prices
+            </div>
         </div>
     </div>
 

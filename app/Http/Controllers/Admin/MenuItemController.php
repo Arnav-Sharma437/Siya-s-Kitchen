@@ -20,10 +20,18 @@ class MenuItemController extends Controller
      */
     public function index(Request $request): View|JsonResponse
     {
+        $perPage = (int) $request->input('per_page', 20);
+        if ($perPage < 1) {
+            $perPage = 20;
+        } elseif ($perPage > 500) {
+            $perPage = 500;
+        }
+
         $items = MenuItem::with(['category', 'variations', 'addons'])
             ->when($request->filled('category_id'), fn ($q) => $q->where('menu_category_id', $request->category_id))
             ->ordered()
-            ->paginate(20);
+            ->paginate($perPage)
+            ->withQueryString();
 
         if ($request->wantsJson()) {
             return response()->json($items);
@@ -31,7 +39,7 @@ class MenuItemController extends Controller
 
         $categories = MenuCategory::ordered()->get();
 
-        return view('admin.menu-items.index', compact('items', 'categories'));
+        return view('admin.menu-items.index', compact('items', 'categories', 'perPage'));
     }
 
     /**
